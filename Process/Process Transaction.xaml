@@ -13,7 +13,7 @@
   <sap:VirtualizedContainerService.HintSize>1410,1546.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Process_Transaction_2_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="80">
+    <scg:List x:TypeArguments="x:String" Capacity="42">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -308,7 +308,7 @@
                               <av:PointCollection x:Key="ConnectorLocation">300.2,1278.8 300.2,1298.8</av:PointCollection>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="602,2809.6" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                          <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="890,5578.4" sap2010:WorkflowViewState.IdRef="Sequence_8">
                             <Sequence.Variables>
                               <Variable x:TypeArguments="x:String" Name="strUploadPath" />
                             </Sequence.Variables>
@@ -317,8 +317,8 @@
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="560,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_8" StatusText="[&quot;Uploading email and attachments to Sharepoint&quot;]" />
-                            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="560,320.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="848,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_8" StatusText="[&quot;Uploading email and attachments to Sharepoint&quot;]" />
+                            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="848,320.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                               <TryCatch.Try>
                                 <ui:SaveMailAttachments Attachments="[ieAttachments]" DisplayName="Save Attachments" ExcludeInlineAttachments="False" FolderPath="[io_Config(&quot;LocalDataPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_3" Message="[in_TransactionItem]" OverwriteExisting="False" />
                               </TryCatch.Try>
@@ -334,7 +334,7 @@
                                     <ActivityAction.Argument>
                                       <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
                                     </ActivityAction.Argument>
-                                    <If Condition="[exception.Message=&quot;Cannot save the attachment because the path is too long&quot;]" DisplayName="If path too long exception" sap:VirtualizedContainerService.HintSize="484,220" sap2010:WorkflowViewState.IdRef="If_10">
+                                    <If Condition="[exception.Message=&quot;Cannot save the attachment because the path is too long.&quot;]" DisplayName="If path too long exception" sap:VirtualizedContainerService.HintSize="484,220" sap2010:WorkflowViewState.IdRef="If_10">
                                       <If.Then>
                                         <Throw Exception="[new BusinessRuleException(&quot;One or more of the email attachment filenames are too long to save to the local device. Please check the 'Review' folder and process this case manually. Note: no other issues were identified with this email.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_3" />
                                       </If.Then>
@@ -346,27 +346,152 @@
                                 </Catch>
                               </TryCatch.Catches>
                             </TryCatch>
-                            <Assign DisplayName="Construct upload path" sap:VirtualizedContainerService.HintSize="560,59.6" sap2010:WorkflowViewState.IdRef="Assign_2">
+                            <Assign DisplayName="Construct upload path" sap:VirtualizedContainerService.HintSize="848,59.6" sap2010:WorkflowViewState.IdRef="Assign_2">
                               <Assign.To>
                                 <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
                               </Assign.To>
                               <Assign.Value>
-                                <InArgument x:TypeArguments="x:String">[io_Config("SharepointRelativePath").ToString+"/"+ Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectModified]</InArgument>
+                                <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectModified]</InArgument>
                               </Assign.Value>
                             </Assign>
-                            <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope - upload email and attachments" sap:VirtualizedContainerService.HintSize="560,2150.4" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[io_Config(&quot;SharepointURL&quot;).ToString]">
+                            <Sequence DisplayName="Check path lengths for Sharepoint" sap:VirtualizedContainerService.HintSize="848,1835.2" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="scg:List(x:String)" Name="listFileNamesSorted" />
+                                <Variable x:TypeArguments="x:Int32" Name="intExcess" />
+                              </Sequence.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign DisplayName="Get attachment names" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="scg:List(x:String)">[ieAttachments.Select(function(x) Path.GetFileName(x)).ToList]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <InvokeMethod DisplayName="Append email to list" sap:VirtualizedContainerService.HintSize="806,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_11" MethodName="Add">
+                                <InvokeMethod.TargetObject>
+                                  <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</InArgument>
+                                </InvokeMethod.TargetObject>
+                                <InArgument x:TypeArguments="x:String">
+                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem.Subject+&quot;.eml&quot;" />
+                                </InArgument>
+                              </InvokeMethod>
+                              <Assign DisplayName="Sort by file name length" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted.OrderByDescending(function(x) x.Length).ToList]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:Annotation.AnnotationText="Calculate number of characters over the maximum allowed path length of 248 if trying to upload the longest named file amongst the transaction email and its attachments." DisplayName="Calculate excess" sap:VirtualizedContainerService.HintSize="806,153.6" sap2010:WorkflowViewState.IdRef="Assign_20">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                              <If sap2010:Annotation.AnnotationText="If the excess is greater than 0, the upload is still possible if we can trim the folder path - specifically the Sharepoint folder that is named after the email subject." Condition="[intExcess&gt;0]" DisplayName="Trim required?" sap:VirtualizedContainerService.HintSize="806,1175.2" sap2010:WorkflowViewState.IdRef="If_12">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <If sap2010:Annotation.AnnotationText="If the email subject can be shortened to a number of characters equal to or greater than the set buffer number, the upload path will be modified and the Sharepoint upload can proceed.&#xA;&#xA;The buffer is set to ensure that - while technically a folder only needs to be 1 character long - enough text should be retained for the folder to have an informative name." Condition="[strSubjectModified.Length-intExcess&gt;CInt(io_Config(&quot;SharepointPathBuffer&quot;))]" DisplayName="Trimmable?" sap:VirtualizedContainerService.HintSize="770.4,940" sap2010:WorkflowViewState.IdRef="If_11">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <If.Then>
+                                      <Sequence sap:VirtualizedContainerService.HintSize="526,686" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                                        <Sequence.Variables>
+                                          <Variable x:TypeArguments="x:String" Name="strSubjectShortened" />
+                                          <Variable x:TypeArguments="x:String" Name="strUploadPathShortened" />
+                                        </Sequence.Variables>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <Assign DisplayName="Shorten the subject" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_21">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:String">[strSubjectShortened]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[strSubjectModified.Substring(0,strSubjectModified.Length-intExcess).Trim]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Construct shortened upload path" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_22">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectShortened]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign sap2010:Annotation.AnnotationText="See if the new shortened subject is enough to reduce the excess to &lt;=0" DisplayName="Re-calculate excess" sap:VirtualizedContainerService.HintSize="484,104.4" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
+                                          </Assign.Value>
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                        </Assign>
+                                        <If Condition="[intExcess&gt;0]" DisplayName="If excess still &gt;0" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_13">
+                                          <If.Then>
+                                            <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_5" />
+                                          </If.Then>
+                                          <If.Else>
+                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_34">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </Sequence>
+                                          </If.Else>
+                                        </If>
+                                      </Sequence>
+                                    </If.Then>
+                                    <If.Else>
+                                      <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_4" />
+                                    </If.Else>
+                                  </If>
+                                </If.Then>
+                              </If>
+                            </Sequence>
+                            <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope - upload email and attachments" sap:VirtualizedContainerService.HintSize="848,3044" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[io_Config(&quot;SharepointURL&quot;).ToString]">
                               <usa:SharepointApplicationScope.Body>
                                 <ActivityAction x:TypeArguments="us:SharePointContextInfo">
                                   <ActivityAction.Argument>
                                     <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
                                   </ActivityAction.Argument>
-                                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,2008.4" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,2902" sap2010:WorkflowViewState.IdRef="Sequence_7">
                                     <sap:WorkflowViewStateService.ViewState>
                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                       </scg:Dictionary>
                                     </sap:WorkflowViewStateService.ViewState>
-                                    <usal:CreateFolder AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" sap2010:Annotation.AnnotationText="If folder already exists, this does nothing." ChooseFile="False" DisplayName="Create destination folder" sap:VirtualizedContainerService.HintSize="484,134.4" sap2010:WorkflowViewState.IdRef="CreateFolder_1" LibraryName="[io_Config(&quot;SharepointLibrary&quot;).ToString]" RelativeUrl="[strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="True" ShowListName="False" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False">
+                                    <ui:LogMessage DisplayName="DEBUG - Sharepoint folder" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Creating Sharepoint folder: &quot;+strUploadPath]" />
+                                    <usal:CreateFolder AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" sap2010:Annotation.AnnotationText="If folder already exists, this does nothing." ChooseFile="False" DisplayName="Create destination folder" sap:VirtualizedContainerService.HintSize="484,134.4" sap2010:WorkflowViewState.IdRef="CreateFolder_1" LibraryName="[io_Config(&quot;SharepointLibraryName&quot;).ToString]" RelativeUrl="[strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="True" ShowListName="False" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
@@ -387,7 +512,7 @@
                                               <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                                             </InvokeMethod.TargetObject>
                                           </InvokeMethod>
-                                          <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="238,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Confirm Sharepoint upload path&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;The following path has been created in Sharepoint for the current email and any attachments to be uploaded to:&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&quot;+io_config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_config(&quot;SharepointLibrary&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;If this Sharepoint path is suitable, please click Continue. If there is an issue with this Sharepoint path, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Confirm Sharepoint destination" IN_WidthHeight="[{600,400}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_3" />
+                                          <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="238,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Confirm Sharepoint upload path&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;The following path has been created in Sharepoint for the current email and any attachments to be uploaded to:&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&quot;+io_config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;If this Sharepoint path is suitable, please click Continue. If there is an issue with this Sharepoint path, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Confirm Sharepoint destination" IN_WidthHeight="[{600,400}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_3" />
                                           <InvokeMethod DisplayName="Start timer - PP4" sap:VirtualizedContainerService.HintSize="238,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_6" MethodName="Start">
                                             <InvokeMethod.TargetObject>
                                               <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
@@ -405,20 +530,32 @@
                                         </Sequence>
                                       </If.Else>
                                     </If>
-                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload mail item" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_1" LocalPath="[io_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+strSubjectModified+&quot;.eml&quot;]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibrary&quot;).ToString+&quot;/&quot;+strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
-                                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each attachment" sap:VirtualizedContainerService.HintSize="484,228" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[ieAttachments]">
+                                    <ui:LogMessage DisplayName="DEBUG - Upload mail item - local path" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Uploading email. Local path: &quot;+strSaveEmailPath]" />
+                                    <ui:LogMessage DisplayName="DEBUG - Upload mail item - destination" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Uploading email. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" />
+                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload mail item" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_1" LocalPath="[strSaveEmailPath]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each attachment" sap:VirtualizedContainerService.HintSize="484,587.2" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[ieAttachments]">
                                       <ui:ForEach.Body>
                                         <ActivityAction x:TypeArguments="x:String">
                                           <ActivityAction.Argument>
                                             <DelegateInArgument x:TypeArguments="x:String" Name="attachment" />
                                           </ActivityAction.Argument>
-                                          <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload attachment" sap:VirtualizedContainerService.HintSize="271.2,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_3" LocalPath="[attachment]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibrary&quot;).ToString+&quot;/&quot;+strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                          <Sequence sap:VirtualizedContainerService.HintSize="376,462.4" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage DisplayName="Log message - Upload Attachment - local path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Uploading attachment. Local path: &quot;+attachment]" />
+                                            <ui:LogMessage DisplayName="Log Message - Upload Attachment - destination" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Uploading attachment. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment)]" />
+                                            <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload attachment" sap:VirtualizedContainerService.HintSize="334,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_3" LocalPath="[attachment]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment)]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                          </Sequence>
                                         </ActivityAction>
                                       </ui:ForEach.Body>
                                     </ui:ForEach>
                                     <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_9" StatusText="[&quot;Updating manifest&quot;]" />
                                     <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[IO_dtItems]" Delimitator="Comma" DisplayName="Write manifest csv" FilePath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="484,156.4" sap2010:WorkflowViewState.IdRef="WriteCsvFile_1" />
-                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload manifest" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_4" LocalPath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" LocalPathHintText="The current local path of the file" RelativeUrl="[IO_Config(&quot;SharepointLibrary&quot;).ToString+&quot;/&quot;+IO_Config(&quot;SharepointManifestPath&quot;).ToString]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Uploading updated manifest.&quot;]" />
+                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload manifest" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_4" LocalPath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" LocalPathHintText="The current local path of the file" RelativeUrl="[IO_Config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+IO_Config(&quot;SharepointManifestPath&quot;).ToString]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
                                   </Sequence>
                                 </ActivityAction>
                               </usa:SharepointApplicationScope.Body>
@@ -550,7 +687,7 @@
                                         <InArgument x:TypeArguments="x:Object">[io_Config("NotActioned")]</InArgument>
                                       </Assign.Value>
                                     </Assign>
-                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
                                   </Sequence>
                                 </FlowStep>
                               </FlowStep.Next>
@@ -675,7 +812,7 @@
                                 </ActivityAction>
                               </ui:ForEach.Body>
                             </ui:ForEach>
-                            <ui:LogMessage DisplayName="Log Message - mailbox duplicates" sap:VirtualizedContainerService.HintSize="519.6,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
+                            <ui:LogMessage DisplayName="Log Message - mailbox duplicates" sap:VirtualizedContainerService.HintSize="519.6,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
                           </Sequence>
                         </FlowStep>
                       </FlowStep.Next>
@@ -776,7 +913,7 @@
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
                     </Assign>
-                    <ui:LogMessage DisplayName="Log Message - return email" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
+                    <ui:LogMessage DisplayName="Log Message - return email" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
                     <ui:SendOutlookMail Bcc="{x:Null}" Cc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Account="[io_Config(&quot;AccountName&quot;).ToString]" Body="[io_Config(&quot;ReturnEmailTemplate&quot;).ToString]" DisplayName="Return email" sap:VirtualizedContainerService.HintSize="334,148.8" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" Subject="[&quot;RE: &quot;+IN_TransactionItem.Subject]" To="[IN_TransactionItem.From.ToString]">
                       <ui:SendOutlookMail.Files>
                         <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
@@ -838,7 +975,7 @@
             <OutArgument x:TypeArguments="x:String">[strSubjectModified]</OutArgument>
           </Assign.To>
           <Assign.Value>
-            <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(in_TransactionItem.Subject,"["+Chr(34)+"*:&lt;&gt;?\\|]","").Replace("/","_")]</InArgument>
+            <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(in_TransactionItem.Subject,"["+Chr(34)+"*:&lt;&gt;?\\|]","").Replace("/","_").Trim]</InArgument>
           </Assign.Value>
         </Assign>
         <Assign DisplayName="Create path for saving email" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_13">
@@ -849,16 +986,24 @@
             <InArgument x:TypeArguments="x:String">[io_Config("LocalDataPath").ToString+"\"+strSubjectModified+".eml"]</InArgument>
           </Assign.Value>
         </Assign>
-        <If Condition="[strSaveEmailPath.Length&gt;248]" DisplayName="If path length too long" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_7">
+        <If Condition="[strSaveEmailPath.Length&gt;248]" DisplayName="If path length too long" sap:VirtualizedContainerService.HintSize="484,475.6" sap2010:WorkflowViewState.IdRef="If_7">
           <If.Then>
-            <Assign DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_14">
-              <Assign.To>
-                <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="x:String">[Regex.Replace(strSaveEmailPath,"\.eml$","").Substring(0,244)+".eml"]</InArgument>
-              </Assign.Value>
-            </Assign>
+            <Sequence DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="376,285.2" sap2010:WorkflowViewState.IdRef="Sequence_35">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_14">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[Regex.Replace(strSaveEmailPath,"\.eml$","").Substring(0,244)+".eml"]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:LogMessage DisplayName="Log message - shorten path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Shortening email local file path: &quot;+strSaveEmailPath]" />
+            </Sequence>
           </If.Then>
         </If>
         <ui:SaveMail DisplayName="Save Mail Message" FilePath="[strSaveEmailPath]" sap:VirtualizedContainerService.HintSize="484,88" sap2010:WorkflowViewState.IdRef="SaveMail_2" MailMessage="[in_TransactionItem]" />

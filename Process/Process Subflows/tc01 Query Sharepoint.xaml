@@ -1,7 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Activity mc:Ignorable="sap sap2010" x:Class="tc01_Query_Sharepoint" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1410,706" sap2010:WorkflowViewState.IdRef="tc01_Query_Sharepoint_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="tc01_Query_Sharepoint" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1410,884.4" sap2010:WorkflowViewState.IdRef="tc01_Query_Sharepoint_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="24">
+    <scg:List x:TypeArguments="x:String" Capacity="48">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -26,6 +25,8 @@
       <x:String>System.Runtime.Serialization</x:String>
       <x:String>System.Reflection</x:String>
       <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -56,20 +57,21 @@
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>OfficeDevPnP.Core</AssemblyReference>
       <AssemblyReference>UiPathTeam.SharePoint</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="tc01_Query_Sharepoint" sap:VirtualizedContainerService.HintSize="418,613.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="tc01_Query_Sharepoint" sap:VirtualizedContainerService.HintSize="451.2,819.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="intTimeUnitInDays" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtItems" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Sequence DisplayName="... Given" sap:VirtualizedContainerService.HintSize="376,151.6" sap2010:WorkflowViewState.IdRef="Sequence_2">
+    <Sequence DisplayName="... Given" sap:VirtualizedContainerService.HintSize="409.2,84.4" sap2010:WorkflowViewState.IdRef="Sequence_2">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:String" Name="strCAMLQuery" />
       </Sequence.Variables>
@@ -78,22 +80,14 @@
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <Assign DisplayName="Time unit in days" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_1">
-        <Assign.To>
-          <OutArgument x:TypeArguments="x:Int32">[intTimeUnitInDays]</OutArgument>
-        </Assign.To>
-        <Assign.Value>
-          <InArgument x:TypeArguments="x:Int32">14</InArgument>
-        </Assign.Value>
-      </Assign>
     </Sequence>
-    <Sequence DisplayName="... When" sap:VirtualizedContainerService.HintSize="376,205.2" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <Sequence DisplayName="... When" sap:VirtualizedContainerService.HintSize="409.2,205.2" sap2010:WorkflowViewState.IdRef="Sequence_3">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Query Sharepoint.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="334,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Process\Process Subflows\Query Sharepoint.xaml">
+      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Query Sharepoint.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="367.2,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Process\Process Subflows\Query Sharepoint.xaml">
         <ui:InvokeWorkflowFile.Arguments>
           <InArgument x:TypeArguments="x:String" x:Key="IN_strSharepointURL">
             <Literal x:TypeArguments="x:String">https://defra.sharepoint.com/sites/lucase</Literal>
@@ -104,19 +98,37 @@
           <InArgument x:TypeArguments="x:String" x:Key="IN_strCAMLQuery">
             <Literal x:TypeArguments="x:String">&lt;Query&gt;&lt;Where&gt;&lt;And&gt;&lt;And&gt;&lt;Gt&gt;&lt;FieldRef Name='Created'/&gt;&lt;Value Type='DateTime'&gt;{0}&lt;/Value&gt;&lt;/Gt&gt;&lt;Leq&gt;&lt;FieldRef Name='Created'/&gt;&lt;Value Type='DateTime'&gt;{1}&lt;/Value&gt;&lt;/Leq&gt;&lt;/And&gt;&lt;IsNull&gt;&lt;FieldRef Name='File_x0020_Type'/&gt;&lt;/IsNull&gt;&lt;/And&gt;&lt;/Where&gt;&lt;/Query&gt;</Literal>
           </InArgument>
-          <OutArgument x:TypeArguments="sd:DataTable" x:Key="OUT_dtSharepointManifest" />
+          <OutArgument x:TypeArguments="sd:DataTable" x:Key="OUT_dtSharepointManifest">
+            <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dtItems" />
+          </OutArgument>
           <InArgument x:TypeArguments="x:Int32" x:Key="IN_intTimeUnitInDays">
-            <Literal x:TypeArguments="x:Int32" Value="7" />
+            <Literal x:TypeArguments="x:Int32" Value="1" />
+          </InArgument>
+          <InArgument x:TypeArguments="x:Int32" x:Key="IN_intQueryPeriod">
+            <Literal x:TypeArguments="x:Int32" Value="3" />
           </InArgument>
         </ui:InvokeWorkflowFile.Arguments>
       </ui:InvokeWorkflowFile>
     </Sequence>
-    <Sequence DisplayName="... Then" sap:VirtualizedContainerService.HintSize="376,84.4" sap2010:WorkflowViewState.IdRef="Sequence_4">
+    <Sequence DisplayName="... Then" sap:VirtualizedContainerService.HintSize="409.2,357.6" sap2010:WorkflowViewState.IdRef="Sequence_4">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
+      <ui:FilterDataTable DataTable="[dtItems]" DisplayName="Keep relevant fields" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="334,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_1" OutputDataTable="[dtItems]" SelectColumnsMode="Keep">
+        <ui:FilterDataTable.Filters>
+          <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+            <ui:FilterOperationArgument Column="{x:Null}" Operand="{x:Null}" BooleanOperator="And" Operator="EQ" />
+          </scg:List>
+        </ui:FilterDataTable.Filters>
+        <ui:FilterDataTable.SelectColumns>
+          <scg:List x:TypeArguments="InArgument" Capacity="4">
+            <InArgument x:TypeArguments="x:String">["FileRef"]</InArgument>
+          </scg:List>
+        </ui:FilterDataTable.SelectColumns>
+      </ui:FilterDataTable>
+      <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.4" sap2010:WorkflowViewState.IdRef="WriteLine_1" />
     </Sequence>
   </Sequence>
 </Activity>

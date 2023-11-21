@@ -22,7 +22,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1410,2378.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1410,2743.6</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Sequence_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="34">
@@ -94,11 +94,11 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>UiPath.Excel</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Query Sharepoint" sap:VirtualizedContainerService.HintSize="677.6,2313.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Query Sharepoint" sap:VirtualizedContainerService.HintSize="922,2678.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="intIteration" />
       <Variable x:TypeArguments="x:Int32" Name="intIterationLimit" />
@@ -109,7 +109,7 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign DisplayName="Initialise datatable" sap:VirtualizedContainerService.HintSize="635.6,59.2" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign DisplayName="Initialise datatable" sap:VirtualizedContainerService.HintSize="880,59.6" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[OUT_dtSharepointManifest]</OutArgument>
       </Assign.To>
@@ -117,7 +117,7 @@
         <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign DisplayName="Calculate iteration limit" sap:VirtualizedContainerService.HintSize="635.6,59.2" sap2010:WorkflowViewState.IdRef="Assign_4">
+    <Assign DisplayName="Calculate iteration limit" sap:VirtualizedContainerService.HintSize="880,59.6" sap2010:WorkflowViewState.IdRef="Assign_4">
       <Assign.To>
         <OutArgument x:TypeArguments="x:Int32">[intIterationLimit]</OutArgument>
       </Assign.To>
@@ -125,15 +125,15 @@
         <InArgument x:TypeArguments="x:Int32">[CInt(IN_intQueryPeriod/IN_intTimeUnitInDays)]</InArgument>
       </Assign.Value>
     </Assign>
-    <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope" sap:VirtualizedContainerService.HintSize="635.6,1468.4" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[IN_strSharepointURL]">
+    <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope" sap:VirtualizedContainerService.HintSize="880,1829.6" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[IN_strSharepointURL]">
       <usa:SharepointApplicationScope.Body>
         <ActivityAction x:TypeArguments="us:SharePointContextInfo">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
           </ActivityAction.Argument>
-          <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[intIteration&lt;intIterationLimit]" DisplayName="Do While" sap:VirtualizedContainerService.HintSize="601.6,1327.2" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_2">
+          <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[intIteration&lt;intIterationLimit]" DisplayName="Do While" sap:VirtualizedContainerService.HintSize="846,1687.6" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_2">
             <ui:InterruptibleDoWhile.Body>
-              <Sequence sap:VirtualizedContainerService.HintSize="566,1160.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <Sequence sap:VirtualizedContainerService.HintSize="810.4,1520.4" sap2010:WorkflowViewState.IdRef="Sequence_4">
                 <Sequence.Variables>
                   <Variable x:TypeArguments="sd:DataTable" Name="dtItems" />
                 </Sequence.Variables>
@@ -142,9 +142,17 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="524,66.8" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="524,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
-                <Assign DisplayName="Format CAML query" sap:VirtualizedContainerService.HintSize="524,63.2" sap2010:WorkflowViewState.IdRef="Assign_5">
+                <Assign DisplayName="Initialise iterative datatable" sap:VirtualizedContainerService.HintSize="768.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_6">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="sd:DataTable">[dtItems]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="768.4,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="768.4,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
+                <Assign DisplayName="Format CAML query" sap:VirtualizedContainerService.HintSize="768.4,63.2" sap2010:WorkflowViewState.IdRef="Assign_5">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">[strCAMLQuery]</OutArgument>
                   </Assign.To>
@@ -154,12 +162,12 @@ Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration)).ToString("
 Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString("yyyy-MM-ddTHH:mm:ssZ"))]</InArgument>
                   </Assign.Value>
                 </Assign>
-                <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="524,452.8" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="768.4,710.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                   <TryCatch.Try>
                     <usal:ReadListItems AttachmentsAction="{x:Null}" ItemsDictArray="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" CAMLQuery="[strCAMLQuery]" ChooseFile="False" DisplayName="Get List Items" sap:VirtualizedContainerService.HintSize="344,139.2" sap2010:WorkflowViewState.IdRef="ReadListItems_2" ItemsTable="[dtItems]" ListName="[IN_strSharepointLibrary]" ShowAttachFiles="False" ShowCAMLQuery="True" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
                   </TryCatch.Try>
                   <TryCatch.Catches>
-                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="490,288.8" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                    <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="734.4,544.8" sap2010:WorkflowViewState.IdRef="Catch`1_1">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -170,20 +178,38 @@ Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
                         </ActivityAction.Argument>
-                        <If Condition="[exception.Message.contains(&quot;The remote server returned an error: (429)&quot;)]" DisplayName="If SharePoint error 429 (user throttling) is hit" sap:VirtualizedContainerService.HintSize="484,218.8" sap2010:WorkflowViewState.IdRef="If_4">
+                        <If Condition="[exception.Message.contains(&quot;The remote server returned an error: (429)&quot;)]" DisplayName="If SharePoint error 429 (user throttling) is hit" sap:VirtualizedContainerService.HintSize="728.4,474.4" sap2010:WorkflowViewState.IdRef="If_5">
                           <If.Then>
-                            <Throw Exception="[new BusinessRuleException(&quot;Sharepoint Throttling Issue detected at &quot; + DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;) + &quot;. The robot is making too many queries to Sharepoint. The robot will now stop to prevent further throttling. Please do not restart the robot for at least 5 minutes. If this is a recurring issue, please contact a member of the DRACoE team.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_3" />
+                            <Throw Exception="[new BusinessRuleException(&quot;Sharepoint Throttling Issue detected at &quot; + DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;) + &quot;. The robot is making too many queries to Sharepoint. The robot will now stop to prevent further throttling. Please do not restart the robot for at least 5 minutes. If this is a recurring issue, please contact a member of the DRACoE team.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_4" />
                           </If.Then>
                           <If.Else>
-                            <Rethrow sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Rethrow_2" />
+                            <If sap2010:Annotation.AnnotationText="This exception is thrown if no records are returned by the query." Condition="[exception.Message.contains(&quot;index out of bounds&quot;)]" DisplayName="If &quot;index out of bounds&quot;" sap:VirtualizedContainerService.HintSize="484,314.8" sap2010:WorkflowViewState.IdRef="If_6">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Warn" Message="[&quot;No records returned for period spanning &quot;+Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration)).ToString(&quot;dd/MM/yyyy&quot;)+&quot; to &quot;+Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString(&quot;dd/MM/yyyy&quot;)]" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
                           </If.Else>
                         </If>
                       </ActivityAction>
                     </Catch>
                   </TryCatch.Catches>
                 </TryCatch>
-                <ui:MergeDataTable Destination="[OUT_dtSharepointManifest]" DisplayName="Merge Data Table" sap:VirtualizedContainerService.HintSize="524,134" sap2010:WorkflowViewState.IdRef="MergeDataTable_2" MissingSchemaAction="Add" Source="[dtItems]" />
-                <Assign DisplayName="Increment iteration counter" sap:VirtualizedContainerService.HintSize="524,59.2" sap2010:WorkflowViewState.IdRef="Assign_3">
+                <ui:MergeDataTable Destination="[OUT_dtSharepointManifest]" DisplayName="Merge Data Table" sap:VirtualizedContainerService.HintSize="768.4,134.8" sap2010:WorkflowViewState.IdRef="MergeDataTable_2" MissingSchemaAction="Add" Source="[dtItems]" />
+                <Assign DisplayName="Increment iteration counter" sap:VirtualizedContainerService.HintSize="768.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_3">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:Int32">[intIteration]</OutArgument>
                   </Assign.To>
@@ -197,9 +223,9 @@ Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString
         </ActivityAction>
       </usa:SharepointApplicationScope.Body>
     </usa:SharepointApplicationScope>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="635.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="635.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[OUT_dtSharepointManifest.RowCount.ToString+&quot; items returned from Sharepoint.&quot;]" />
-    <If Condition="[OUT_dtSharepointManifest.RowCount=0]" DisplayName="If no data returned" sap:VirtualizedContainerService.HintSize="635.6,248.8" sap2010:WorkflowViewState.IdRef="If_2">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="880,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="880,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[OUT_dtSharepointManifest.RowCount.ToString+&quot; items returned from Sharepoint.&quot;]" />
+    <If Condition="[OUT_dtSharepointManifest.RowCount=0]" DisplayName="If no data returned" sap:VirtualizedContainerService.HintSize="880,250.4" sap2010:WorkflowViewState.IdRef="If_2">
       <If.Then>
         <Throw Exception="[new System.Exception(&quot;No data returned from Sharepoing CAML Query. Check that queried columns in Sharepoint are Indexed. Attempted query: &quot;+strCAMLQuery)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
       </If.Then>
