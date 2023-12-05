@@ -1,19 +1,20 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process_Transaction_2" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:p="clr-namespace:Pop_Ups;assembly=Pop Ups" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Diagnostics;assembly=System" xmlns:sd1="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:us="clr-namespace:UiPathTeam.SharePoint;assembly=UiPathTeam.SharePoint" xmlns:usa="clr-namespace:UiPathTeam.SharePoint.Activities;assembly=UiPathTeam.SharePoint.Activities" xmlns:usal="clr-namespace:UiPathTeam.SharePoint.Activities.Libraries;assembly=UiPathTeam.SharePoint.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process_Transaction_2" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:p="clr-namespace:Pop_Ups;assembly=Pop Ups" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Diagnostics;assembly=System" xmlns:sd1="clr-namespace:System.Data;assembly=System.Data" xmlns:sn="clr-namespace:System.Net;assembly=System" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uma="clr-namespace:UiPath.MicrosoftOffice365.Activities;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umam="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umm="clr-namespace:UiPath.MicrosoftOffice365.Models;assembly=UiPath.MicrosoftOffice365" xmlns:us="clr-namespace:UiPathTeam.SharePoint;assembly=UiPathTeam.SharePoint" xmlns:usa="clr-namespace:UiPathTeam.SharePoint.Activities;assembly=UiPathTeam.SharePoint.Activities" xmlns:usal="clr-namespace:UiPathTeam.SharePoint.Activities.Libraries;assembly=UiPathTeam.SharePoint.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(snm:MailMessage)" />
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(umm:Office365Message)" />
     <x:Property Name="io_arrExitPoint" Type="InOutArgument(s:Int32[])" />
     <x:Property Name="io_swProcessingTimer" Type="InOutArgument(sd:Stopwatch)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="io_Config" Type="InOutArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="io_arrCaseID" Type="InOutArgument(s:String[])" />
     <x:Property Name="IO_dtItems" Type="InOutArgument(sd1:DataTable)" />
+    <x:Property Name="IN_credExchangeCredentials" Type="InArgument(sn:NetworkCredential)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1410,1546.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>731.2,1724.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Process_Transaction_2_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="42">
+    <scg:List x:TypeArguments="x:String" Capacity="84">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -56,10 +57,18 @@
       <x:String>UiPath.Shared.Activities</x:String>
       <x:String>UiPath.CSV</x:String>
       <x:String>UiPath.CSV.Activities</x:String>
+      <x:String>Microsoft.Graph</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Enums</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Models</x:String>
+      <x:String>UiPath.Shared.Services.Graph.Mail.Models</x:String>
+      <x:String>UiPath.Shared.Services.Graph.Mail.Contracts</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="42">
+    <sco:Collection x:TypeArguments="AssemblyReference">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -101,583 +110,700 @@
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
       <AssemblyReference>UiPath.Callout.Activity</AssemblyReference>
       <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>netstandard</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph.Core</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
-    </scg:List>
+    </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " sap:VirtualizedContainerService.HintSize="634,1481.2" sap2010:WorkflowViewState.IdRef="Flowchart_1">
-    <Flowchart.Variables>
-      <Variable x:TypeArguments="str:Match" Name="matchSubjectCode" />
-      <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="ieAttachments" />
-      <Variable x:TypeArguments="sd1:DataTable" Name="dtSharepointDuplicates" />
-      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Default="[new list(of MailMessage)]" Name="listMailboxDuplicates" />
-      <Variable x:TypeArguments="sd1:DataTable" Name="dtMailboxDuplicates" />
-      <Variable x:TypeArguments="x:String" Name="strDuplicatesTable" />
-      <Variable x:TypeArguments="x:String" Name="strSubjectModified" />
-      <Variable x:TypeArguments="x:String" Name="strSaveEmailPath" />
-      <Variable x:TypeArguments="scg:List(snm:Attachment)" Name="listProblemAttachments" />
-    </Flowchart.Variables>
+  <Sequence DisplayName="Process Transaction" sap:VirtualizedContainerService.HintSize="710,1659.2" sap2010:WorkflowViewState.IdRef="Sequence_62">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-        <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
-        <av:Size x:Key="ShapeSize">60,75.2</av:Size>
-        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        <av:PointCollection x:Key="ConnectorLocation">300,77.7 300,97.7</av:PointCollection>
-        <x:Double x:Key="Height">1367.6</x:Double>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Flowchart.StartNode>
-      <x:Reference>__ReferenceID16</x:Reference>
-    </Flowchart.StartNode>
-    <FlowDecision x:Name="__ReferenceID15" sap2010:Annotation.AnnotationText="Are the email subject and attachment file names all less than or equal to 200 characters in length? Does the email subject contain a 6 digit reference code?" Condition="[in_TransactionItem.Subject.Length&lt;=200 and listProblemAttachments.Count=0 and matchSubjectCode.Success]" DisplayName="No issues with email?" sap:VirtualizedContainerService.HintSize="119.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          <av:Point x:Key="ShapeLocation">240.4,186.5</av:Point>
-          <av:Size x:Key="ShapeSize">119.2,87.2</av:Size>
-          <av:PointCollection x:Key="FalseConnector">359.6,230.1 502.6,230.1 502.6,276.4</av:PointCollection>
-          <av:PointCollection x:Key="TrueConnector">240.4,230.1 171.6,230.1 171.6,497.6 201.6,497.6</av:PointCollection>
-          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-      <FlowDecision.True>
-        <FlowStep x:Name="__ReferenceID11">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <av:Point x:Key="ShapeLocation">201.6,463.2</av:Point>
-              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-              <av:PointCollection x:Key="ConnectorLocation">301.6,532 301.6,551.2</av:PointCollection>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <Sequence DisplayName="Check mailbox for duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_17">
-            <Sequence.Variables>
-              <Variable x:TypeArguments="s:String[]" Name="arrFolders" />
-            </Sequence.Variables>
+    <uma:Office365ApplicationScope CertificateAsBase64="{x:Null}" CertificatePassword="{x:Null}" ContinueOnError="{x:Null}" OAuth2Username="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[IN_credExchangeCredentials.UserName]" ApplicationSecret="[IN_credExchangeCredentials.Password]" AuthenticationType="ApplicationIdAndSecret" DisplayName="Microsoft Office 365 Scope" Environment="Global" sap:VirtualizedContainerService.HintSize="668,1567.2" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Mail" Tenant="[io_Config(&quot;TenantID&quot;).ToString]">
+      <uma:Office365ApplicationScope.Body>
+        <ActivityAction x:TypeArguments="mg:GraphServiceClient">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="mg:GraphServiceClient" Name="ParentScope" />
+          </ActivityAction.Argument>
+          <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " sap:VirtualizedContainerService.HintSize="634,1481.2" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+            <Flowchart.Variables>
+              <Variable x:TypeArguments="str:Match" Name="matchSubjectCode" />
+              <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="ieAttachments" />
+              <Variable x:TypeArguments="sd1:DataTable" Name="dtSharepointDuplicates" />
+              <Variable x:TypeArguments="scg:List(umm:Office365Message)" Default="[new list(of Office365Message)]" Name="listMailboxDuplicates" />
+              <Variable x:TypeArguments="sd1:DataTable" Name="dtMailboxDuplicates" />
+              <Variable x:TypeArguments="x:String" Name="strDuplicatesTable" />
+              <Variable x:TypeArguments="x:String" Name="strSubjectModified" />
+              <Variable x:TypeArguments="x:String" Name="strSaveEmailPath" />
+              <Variable x:TypeArguments="scg:List(snm:Attachment)" Name="listProblemAttachments" />
+            </Flowchart.Variables>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+                <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                <av:PointCollection x:Key="ConnectorLocation">300,77.7 300,97.7</av:PointCollection>
+                <x:Double x:Key="Height">1367.6</x:Double>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="589.2,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_4" StatusText="[&quot;Checking mailbox for duplicates&quot;]" />
-            <Assign DisplayName="Array of mailbox folders" sap:VirtualizedContainerService.HintSize="589.2,59.6" sap2010:WorkflowViewState.IdRef="Assign_7">
-              <Assign.To>
-                <OutArgument x:TypeArguments="s:String[]">[arrFolders]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="s:String[]">[{io_config("ToProcess").ToString,io_config("Returned").ToString,io_config("Completed").ToString,io_config("NotActioned").ToString,io_config("Review").ToString }]</InArgument>
-              </Assign.Value>
-            </Assign>
-            <ui:BuildDataTable DataTable="[dtMailboxDuplicates]" DisplayName="Build mailbox duplicates datatable" sap:VirtualizedContainerService.HintSize="589.2,59.2" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Folder&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Subject&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Uid&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
-            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each mailbox folder" sap:VirtualizedContainerService.HintSize="589.2,1386.8" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[arrFolders]">
-              <ui:ForEach.Body>
-                <ActivityAction x:TypeArguments="x:String">
-                  <ActivityAction.Argument>
-                    <DelegateInArgument x:TypeArguments="x:String" Name="folder" />
-                  </ActivityAction.Argument>
-                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="553.6,1262" sap2010:WorkflowViewState.IdRef="Sequence_18">
+            <Flowchart.StartNode>
+              <x:Reference>__ReferenceID16</x:Reference>
+            </Flowchart.StartNode>
+            <FlowDecision x:Name="__ReferenceID15" sap2010:Annotation.AnnotationText="Are the email subject and attachment file names all less than or equal to 200 characters in length? Does the email subject contain a 6 digit reference code?" Condition="[in_TransactionItem.Subject.Length&lt;=200 and listProblemAttachments.Count=0 and matchSubjectCode.Success]" DisplayName="No issues with email?" sap:VirtualizedContainerService.HintSize="119.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_12">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <av:Point x:Key="ShapeLocation">240.4,186.5</av:Point>
+                  <av:Size x:Key="ShapeSize">119.2,87.2</av:Size>
+                  <av:PointCollection x:Key="FalseConnector">359.6,230.1 502.6,230.1 502.6,276.4</av:PointCollection>
+                  <av:PointCollection x:Key="TrueConnector">240.4,230.1 171.6,230.1 171.6,497.6 201.6,497.6</av:PointCollection>
+                  <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <FlowDecision.True>
+                <FlowStep x:Name="__ReferenceID11">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">201.6,463.2</av:Point>
+                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                      <av:PointCollection x:Key="ConnectorLocation">301.6,532 301.6,551.2</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Check mailbox for duplicates" sap:VirtualizedContainerService.HintSize="631.2,1784.8" sap2010:WorkflowViewState.IdRef="Sequence_42">
                     <Sequence.Variables>
-                      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="listMail" />
+                      <Variable x:TypeArguments="s:String[]" Name="arrFolders" />
                     </Sequence.Variables>
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <ui:ReportStatus DisplayName="Report Status - current mailbox folder" sap:VirtualizedContainerService.HintSize="511.6,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_1" StatusText="[&quot;Checking mailbox folder '&quot;+folder+&quot;' for duplicates.&quot;]" />
-                    <ui:GetOutlookMailMessages FilterByMessageIds="{x:Null}" TimeoutMS="{x:Null}" Account="[io_Config(&quot;AccountName&quot;).ToString]" DisplayName="Get filtered emails" Filter="[&quot;@SQL=&quot;&quot;urn:schemas:httpmail:subject&quot;&quot; like '%&quot;+matchSubjectCode.Value+&quot;%'&quot;]" GetAttachements="False" sap:VirtualizedContainerService.HintSize="511.6,22" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_1" MailFolder="[folder]" MarkAsRead="False" Messages="[listMail]" OnlyUnreadMessages="False" OrderByDate="NewestFirst" Top="[int32.MaxValue]" />
-                    <If Condition="[listMail.Count&lt;&gt;0]" DisplayName="If duplicates found" sap:VirtualizedContainerService.HintSize="511.6,1000.8" sap2010:WorkflowViewState.IdRef="If_3">
-                      <If.Then>
-                        <Sequence DisplayName="Add duplicates to list and datatable" sap:VirtualizedContainerService.HintSize="476,810.4" sap2010:WorkflowViewState.IdRef="Sequence_25">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                          <InvokeMethod DisplayName="Add to list of duplicates" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_10" MethodName="AddRange">
-                            <InvokeMethod.TargetObject>
-                              <InArgument x:TypeArguments="scg:List(snm:MailMessage)">[listMailboxDuplicates]</InArgument>
-                            </InvokeMethod.TargetObject>
-                            <InArgument x:TypeArguments="scg:List(snm:MailMessage)">[listMail]</InArgument>
-                          </InvokeMethod>
-                          <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{io_config(&quot;ToProcess&quot;).ToString,in_TransactionItem.Subject,in_TransactionItem.Headers(&quot;Uid&quot;)}]" DataTable="[dtMailboxDuplicates]" DisplayName="Add current email to duplicates table" sap:VirtualizedContainerService.HintSize="434,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_5" />
-                          <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each duplicate in list" sap:VirtualizedContainerService.HintSize="434,314" sap2010:WorkflowViewState.IdRef="ForEach`1_10" Values="[listMail]">
-                            <ui:ForEach.Body>
-                              <ActivityAction x:TypeArguments="snm:MailMessage">
-                                <ActivityAction.Argument>
-                                  <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="mail" />
-                                </ActivityAction.Argument>
-                                <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{folder,mail.Subject,mail.Headers(&quot;Uid&quot;)}]" DataTable="[dtMailboxDuplicates]" DisplayName="Add Data Row (for Pause Point)" sap:VirtualizedContainerService.HintSize="334,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_4" />
-                              </ActivityAction>
-                            </ui:ForEach.Body>
-                          </ui:ForEach>
-                        </Sequence>
-                      </If.Then>
-                      <If.Else>
-                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_19">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                        </Sequence>
-                      </If.Else>
-                    </If>
-                  </Sequence>
-                </ActivityAction>
-              </ui:ForEach.Body>
-            </ui:ForEach>
-          </Sequence>
-          <FlowStep.Next>
-            <FlowDecision x:Name="__ReferenceID12" Condition="[dtMailboxDuplicates.RowCount=0]" DisplayName="No mailbox duplicates?" sap:VirtualizedContainerService.HintSize="129.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_5">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  <av:Point x:Key="ShapeLocation">236.8,551.2</av:Point>
-                  <av:Size x:Key="ShapeSize">129.6,87.2</av:Size>
-                  <av:PointCollection x:Key="TrueConnector">236.8,594.8 171.6,594.8 171.6,857.2 201.6,857.2</av:PointCollection>
-                  <av:PointCollection x:Key="FalseConnector">366.4,594.8 497.4,594.8 497.4,641.3</av:PointCollection>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <FlowDecision.True>
-                <FlowStep x:Name="__ReferenceID5">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <av:Point x:Key="ShapeLocation">201.6,823.2</av:Point>
-                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                      <av:PointCollection x:Key="ConnectorLocation">301.6,892 301.6,922</av:PointCollection>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <Sequence DisplayName="Check Sharepoint for duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_6" StatusText="[&quot;Checking Sharepoint for duplicates&quot;]" />
-                    <If Condition="[not matchSubjectCode.Success]" DisplayName="6 digit code in Subject?" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_1">
-                      <If.Then>
-                        <Throw Exception="[new BusinessRuleException(&quot;Could not find 6 digit code in email subject. Subject: &quot;+in_TransactionItem.Subject)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
-                      </If.Then>
-                      <If.Else>
-                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_10">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                        </Sequence>
-                      </If.Else>
-                    </If>
-                    <ui:FilterDataTable DataTable="[IO_dtItems]" DisplayName="Filter files on subject code" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="484,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_1" OutputDataTable="[dtSharepointDuplicates]" SelectColumnsMode="Keep">
-                      <ui:FilterDataTable.Filters>
-                        <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
-                          <ui:FilterOperationArgument BooleanOperator="And" Operator="CONTAINS">
-                            <ui:FilterOperationArgument.Column>
-                              <InArgument x:TypeArguments="x:String">["FileRef"]</InArgument>
-                            </ui:FilterOperationArgument.Column>
-                            <ui:FilterOperationArgument.Operand>
-                              <InArgument x:TypeArguments="x:String">[matchSubjectCode.Value]</InArgument>
-                            </ui:FilterOperationArgument.Operand>
-                          </ui:FilterOperationArgument>
-                        </scg:List>
-                      </ui:FilterDataTable.Filters>
-                      <ui:FilterDataTable.SelectColumns>
-                        <scg:List x:TypeArguments="InArgument" Capacity="4">
-                          <x:Null />
-                        </scg:List>
-                      </ui:FilterDataTable.SelectColumns>
-                    </ui:FilterDataTable>
-                  </Sequence>
-                  <FlowStep.Next>
-                    <FlowDecision x:Name="__ReferenceID6" Condition="[dtSharepointDuplicates.RowCount=0]" DisplayName="Not found in Sharepoint?" sap:VirtualizedContainerService.HintSize="139.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                          <av:Point x:Key="ShapeLocation">231.8,922</av:Point>
-                          <av:Size x:Key="ShapeSize">139.6,87.2</av:Size>
-                          <av:PointCollection x:Key="FalseConnector">371.4,965.6 501.2,965.6 501.2,1023.2</av:PointCollection>
-                          <av:PointCollection x:Key="TrueConnector">231.8,965.6 170.2,965.6 170.2,1244.4 200.2,1244.4</av:PointCollection>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                      <FlowDecision.True>
-                        <FlowStep x:Name="__ReferenceID9">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <av:Point x:Key="ShapeLocation">200.2,1210</av:Point>
-                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                              <av:PointCollection x:Key="ConnectorLocation">300.2,1278.8 300.2,1298.8</av:PointCollection>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                          <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="589.2,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_11" StatusText="[&quot;Checking mailbox for duplicates&quot;]" />
+                    <Assign DisplayName="Array of mailbox folders" sap:VirtualizedContainerService.HintSize="589.2,59.6" sap2010:WorkflowViewState.IdRef="Assign_30">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="s:String[]">[arrFolders]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="s:String[]">[{io_config("ToProcess").ToString,io_config("Returned").ToString,io_config("Completed").ToString,io_config("NotActioned").ToString,io_config("Review").ToString }]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:BuildDataTable DataTable="[dtMailboxDuplicates]" DisplayName="Build mailbox duplicates datatable" sap:VirtualizedContainerService.HintSize="589.2,59.2" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;Folder&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Subject&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Uid&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each mailbox folder" sap:VirtualizedContainerService.HintSize="589.2,1386.8" sap2010:WorkflowViewState.IdRef="ForEach`1_14" Values="[arrFolders]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="x:String">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="x:String" Name="folder" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="553.6,1262" sap2010:WorkflowViewState.IdRef="Sequence_41">
                             <Sequence.Variables>
-                              <Variable x:TypeArguments="x:String" Name="strUploadPath" />
+                              <Variable x:TypeArguments="umm:Office365Message[]" Name="arrMail" />
                             </Sequence.Variables>
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="848,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_8" StatusText="[&quot;Uploading email and attachments to Sharepoint&quot;]" />
-                            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="848,320.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
-                              <TryCatch.Try>
-                                <ui:SaveMailAttachments Attachments="[ieAttachments]" DisplayName="Save Attachments" ExcludeInlineAttachments="False" FolderPath="[io_Config(&quot;LocalDataPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_3" Message="[in_TransactionItem]" OverwriteExisting="False" />
-                              </TryCatch.Try>
-                              <TryCatch.Catches>
-                                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="403.6,22.8" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                            <ui:ReportStatus DisplayName="Report Status - current mailbox folder" sap:VirtualizedContainerService.HintSize="511.6,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_12" StatusText="[&quot;Checking mailbox folder '&quot;+folder+&quot;' for duplicates.&quot;]" />
+                            <umam:GetMail EmailId="{x:Null}" Account="[io_Config(&quot;AccountName&quot;).ToString]" DisplayName="Get Mail" GetAsHTML="False" sap:VirtualizedContainerService.HintSize="511.6,22" sap2010:WorkflowViewState.IdRef="GetMail_1" MailFolder="[folder]" MarkAsRead="False" OnlyUnreadMessages="False" OrderByDate="NewestFirst" Query="[&quot;contains(subject,'&quot;+matchSubjectCode.Value+&quot;')&quot;]" Results="[arrMail]" Top="[int32.MaxValue]" />
+                            <If Condition="[arrMail.Count&lt;&gt;0]" DisplayName="If duplicates found" sap:VirtualizedContainerService.HintSize="511.6,1000.8" sap2010:WorkflowViewState.IdRef="If_15">
+                              <If.Then>
+                                <Sequence DisplayName="Add duplicates to list and datatable" sap:VirtualizedContainerService.HintSize="476,810.4" sap2010:WorkflowViewState.IdRef="Sequence_39">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
-                                  <ActivityAction x:TypeArguments="s:Exception">
-                                    <ActivityAction.Argument>
-                                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                                    </ActivityAction.Argument>
-                                    <If Condition="[exception.Message=&quot;Cannot save the attachment because the path is too long.&quot;]" DisplayName="If path too long exception" sap:VirtualizedContainerService.HintSize="484,220" sap2010:WorkflowViewState.IdRef="If_10">
-                                      <If.Then>
-                                        <Throw Exception="[new BusinessRuleException(&quot;One or more of the email attachment filenames are too long to save to the local device. Please check the 'Review' folder and process this case manually. Note: no other issues were identified with this email.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_3" />
-                                      </If.Then>
-                                      <If.Else>
-                                        <Rethrow sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
-                                      </If.Else>
-                                    </If>
-                                  </ActivityAction>
-                                </Catch>
-                              </TryCatch.Catches>
-                            </TryCatch>
-                            <Assign DisplayName="Construct upload path" sap:VirtualizedContainerService.HintSize="848,59.6" sap2010:WorkflowViewState.IdRef="Assign_2">
-                              <Assign.To>
-                                <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
-                              </Assign.To>
-                              <Assign.Value>
-                                <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectModified]</InArgument>
-                              </Assign.Value>
-                            </Assign>
-                            <Sequence DisplayName="Check path lengths for Sharepoint" sap:VirtualizedContainerService.HintSize="848,1835.2" sap2010:WorkflowViewState.IdRef="Sequence_31">
-                              <Sequence.Variables>
-                                <Variable x:TypeArguments="scg:List(x:String)" Name="listFileNamesSorted" />
-                                <Variable x:TypeArguments="x:Int32" Name="intExcess" />
-                              </Sequence.Variables>
+                                  <InvokeMethod DisplayName="Add to list of duplicates" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_12" MethodName="AddRange">
+                                    <InvokeMethod.TargetObject>
+                                      <InArgument x:TypeArguments="scg:List(umm:Office365Message)">[listMailboxDuplicates]</InArgument>
+                                    </InvokeMethod.TargetObject>
+                                    <InArgument x:TypeArguments="scg:List(umm:Office365Message)">[arrMail.ToList]</InArgument>
+                                  </InvokeMethod>
+                                  <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{io_config(&quot;ToProcess&quot;).ToString,in_TransactionItem.Subject,in_TransactionItem.Headers(&quot;Uid&quot;)}]" DataTable="[dtMailboxDuplicates]" DisplayName="Add current email to duplicates table" sap:VirtualizedContainerService.HintSize="434,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_7" />
+                                  <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each duplicate in list" sap:VirtualizedContainerService.HintSize="434,314" sap2010:WorkflowViewState.IdRef="ForEach`1_13" Values="[arrMail]">
+                                    <ui:ForEach.Body>
+                                      <ActivityAction x:TypeArguments="snm:MailMessage">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="mail" />
+                                        </ActivityAction.Argument>
+                                        <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{folder,mail.Subject,mail.Headers(&quot;Uid&quot;)}]" DataTable="[dtMailboxDuplicates]" DisplayName="Add Data Row (for Pause Point)" sap:VirtualizedContainerService.HintSize="334,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_8" />
+                                      </ActivityAction>
+                                    </ui:ForEach.Body>
+                                  </ui:ForEach>
+                                </Sequence>
+                              </If.Then>
+                              <If.Else>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                  </Sequence>
+                  <FlowStep.Next>
+                    <FlowDecision x:Name="__ReferenceID12" Condition="[dtMailboxDuplicates.RowCount=0]" DisplayName="No mailbox duplicates?" sap:VirtualizedContainerService.HintSize="129.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_10">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <av:Point x:Key="ShapeLocation">236.8,551.2</av:Point>
+                          <av:Size x:Key="ShapeSize">129.6,87.2</av:Size>
+                          <av:PointCollection x:Key="TrueConnector">236.8,594.8 171.6,594.8 171.6,857.2 201.6,857.2</av:PointCollection>
+                          <av:PointCollection x:Key="FalseConnector">366.4,594.8 497.4,594.8 497.4,641.3</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <FlowDecision.True>
+                        <FlowStep x:Name="__ReferenceID5">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <av:Point x:Key="ShapeLocation">201.6,823.2</av:Point>
+                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                              <av:PointCollection x:Key="ConnectorLocation">301.6,892 301.6,922</av:PointCollection>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Sequence DisplayName="Check Sharepoint for duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_44">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_13" StatusText="[&quot;Checking Sharepoint for duplicates&quot;]" />
+                            <If Condition="[not matchSubjectCode.Success]" DisplayName="6 digit code in Subject?" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_16">
+                              <If.Then>
+                                <Throw Exception="[new BusinessRuleException(&quot;Could not find 6 digit code in email subject. Subject: &quot;+in_TransactionItem.Subject)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_6" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_43">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                            <ui:FilterDataTable DataTable="[IO_dtItems]" DisplayName="Filter files on subject code" FilterRowsMode="Keep" sap:VirtualizedContainerService.HintSize="484,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_3" OutputDataTable="[dtSharepointDuplicates]" SelectColumnsMode="Keep">
+                              <ui:FilterDataTable.Filters>
+                                <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+                                  <ui:FilterOperationArgument BooleanOperator="And" Operator="CONTAINS">
+                                    <ui:FilterOperationArgument.Column>
+                                      <InArgument x:TypeArguments="x:String">["FileRef"]</InArgument>
+                                    </ui:FilterOperationArgument.Column>
+                                    <ui:FilterOperationArgument.Operand>
+                                      <InArgument x:TypeArguments="x:String">[matchSubjectCode.Value]</InArgument>
+                                    </ui:FilterOperationArgument.Operand>
+                                  </ui:FilterOperationArgument>
+                                </scg:List>
+                              </ui:FilterDataTable.Filters>
+                              <ui:FilterDataTable.SelectColumns>
+                                <scg:List x:TypeArguments="InArgument" Capacity="4">
+                                  <x:Null />
+                                </scg:List>
+                              </ui:FilterDataTable.SelectColumns>
+                            </ui:FilterDataTable>
+                          </Sequence>
+                          <FlowStep.Next>
+                            <FlowDecision x:Name="__ReferenceID6" Condition="[dtSharepointDuplicates.RowCount=0]" DisplayName="Not found in Sharepoint?" sap:VirtualizedContainerService.HintSize="139.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_8">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  <av:Point x:Key="ShapeLocation">231.8,922</av:Point>
+                                  <av:Size x:Key="ShapeSize">139.6,87.2</av:Size>
+                                  <av:PointCollection x:Key="FalseConnector">371.4,965.6 501.2,965.6 501.2,1023.2</av:PointCollection>
+                                  <av:PointCollection x:Key="TrueConnector">231.8,965.6 170.2,965.6 170.2,1244.4 200.2,1244.4</av:PointCollection>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                              <Assign DisplayName="Get attachment names" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_18">
-                                <Assign.To>
-                                  <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
-                                </Assign.To>
-                                <Assign.Value>
-                                  <InArgument x:TypeArguments="scg:List(x:String)">[ieAttachments.Select(function(x) Path.GetFileName(x)).ToList]</InArgument>
-                                </Assign.Value>
-                              </Assign>
-                              <InvokeMethod DisplayName="Append email to list" sap:VirtualizedContainerService.HintSize="806,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_11" MethodName="Add">
-                                <InvokeMethod.TargetObject>
-                                  <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</InArgument>
-                                </InvokeMethod.TargetObject>
-                                <InArgument x:TypeArguments="x:String">[in_TransactionItem.Subject+".eml"]</InArgument>
-                              </InvokeMethod>
-                              <Assign DisplayName="Sort by file name length" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_19">
-                                <Assign.To>
-                                  <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
-                                </Assign.To>
-                                <Assign.Value>
-                                  <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted.OrderByDescending(function(x) x.Length).ToList]</InArgument>
-                                </Assign.Value>
-                              </Assign>
-                              <Assign sap2010:Annotation.AnnotationText="Calculate number of characters over the maximum allowed path length of 248 if trying to upload the longest named file amongst the transaction email and its attachments." DisplayName="Calculate excess" sap:VirtualizedContainerService.HintSize="806,153.6" sap2010:WorkflowViewState.IdRef="Assign_20">
-                                <Assign.To>
-                                  <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
-                                </Assign.To>
-                                <Assign.Value>
-                                  <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
-                                </Assign.Value>
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                              </Assign>
-                              <If sap2010:Annotation.AnnotationText="If the excess is greater than 0, the upload is still possible if we can trim the folder path - specifically the Sharepoint folder that is named after the email subject." Condition="[intExcess&gt;0]" DisplayName="Trim required?" sap:VirtualizedContainerService.HintSize="806,1175.2" sap2010:WorkflowViewState.IdRef="If_12">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                                <If.Then>
-                                  <If sap2010:Annotation.AnnotationText="If the email subject can be shortened to a number of characters equal to or greater than the set buffer number, the upload path will be modified and the Sharepoint upload can proceed.&#xA;&#xA;The buffer is set to ensure that - while technically a folder only needs to be 1 character long - enough text should be retained for the folder to have an informative name." Condition="[strSubjectModified.Length-intExcess&gt;CInt(io_Config(&quot;SharepointPathBuffer&quot;))]" DisplayName="Trimmable?" sap:VirtualizedContainerService.HintSize="770.4,940" sap2010:WorkflowViewState.IdRef="If_11">
+                              <FlowDecision.True>
+                                <FlowStep x:Name="__ReferenceID9">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <av:Point x:Key="ShapeLocation">200.2,1210</av:Point>
+                                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                                      <av:PointCollection x:Key="ConnectorLocation">300.2,1278.8 300.2,1298.8</av:PointCollection>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="strUploadPath" />
+                                    </Sequence.Variables>
                                     <sap:WorkflowViewStateService.ViewState>
                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                       </scg:Dictionary>
                                     </sap:WorkflowViewStateService.ViewState>
-                                    <If.Then>
-                                      <Sequence sap:VirtualizedContainerService.HintSize="526,686" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="848,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_14" StatusText="[&quot;Uploading email and attachments to Sharepoint&quot;]" />
+                                    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="848,456" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                                      <TryCatch.Try>
+                                        <ui:SaveMailAttachments Attachments="[ieAttachments]" DisplayName="Save Attachments" ExcludeInlineAttachments="False" FolderPath="[io_Config(&quot;LocalDataPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_4" Message="[in_TransactionItem]" OverwriteExisting="False" />
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="490,290.4" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <If Condition="[exception.Message=&quot;Cannot save the attachment because the path is too long.&quot;]" DisplayName="If path too long exception" sap:VirtualizedContainerService.HintSize="484,220" sap2010:WorkflowViewState.IdRef="If_17">
+                                              <If.Then>
+                                                <Throw Exception="[new BusinessRuleException(&quot;One or more of the email attachment filenames are too long to save to the local device. Please check the 'Review' folder and process this case manually. Note: no other issues were identified with this email.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_7" />
+                                              </If.Then>
+                                              <If.Else>
+                                                <Rethrow sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Rethrow_2" />
+                                              </If.Else>
+                                            </If>
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                    </TryCatch>
+                                    <Assign DisplayName="Construct upload path" sap:VirtualizedContainerService.HintSize="848,59.6" sap2010:WorkflowViewState.IdRef="Assign_31">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectModified]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Sequence DisplayName="Check path lengths for Sharepoint" sap:VirtualizedContainerService.HintSize="848,1835.2" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="scg:List(x:String)" Name="listFileNamesSorted" />
+                                        <Variable x:TypeArguments="x:Int32" Name="intExcess" />
+                                      </Sequence.Variables>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Assign DisplayName="Get attachment names" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_32">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="scg:List(x:String)">[ieAttachments.Select(function(x) Path.GetFileName(x)).ToList]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <InvokeMethod DisplayName="Append email to list" sap:VirtualizedContainerService.HintSize="806,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_13" MethodName="Add">
+                                        <InvokeMethod.TargetObject>
+                                          <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</InArgument>
+                                        </InvokeMethod.TargetObject>
+                                        <InArgument x:TypeArguments="x:String">[in_TransactionItem.Subject+".eml"]</InArgument>
+                                      </InvokeMethod>
+                                      <Assign DisplayName="Sort by file name length" sap:VirtualizedContainerService.HintSize="806,59.6" sap2010:WorkflowViewState.IdRef="Assign_33">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="scg:List(x:String)">[listFileNamesSorted.OrderByDescending(function(x) x.Length).ToList]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <Assign sap2010:Annotation.AnnotationText="Calculate number of characters over the maximum allowed path length of 248 if trying to upload the longest named file amongst the transaction email and its attachments." DisplayName="Calculate excess" sap:VirtualizedContainerService.HintSize="806,153.6" sap2010:WorkflowViewState.IdRef="Assign_34">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
+                                        </Assign.Value>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                      </Assign>
+                                      <If sap2010:Annotation.AnnotationText="If the excess is greater than 0, the upload is still possible if we can trim the folder path - specifically the Sharepoint folder that is named after the email subject." Condition="[intExcess&gt;0]" DisplayName="Trim required?" sap:VirtualizedContainerService.HintSize="806,1175.2" sap2010:WorkflowViewState.IdRef="If_20">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <If sap2010:Annotation.AnnotationText="If the email subject can be shortened to a number of characters equal to or greater than the set buffer number, the upload path will be modified and the Sharepoint upload can proceed.&#xA;&#xA;The buffer is set to ensure that - while technically a folder only needs to be 1 character long - enough text should be retained for the folder to have an informative name." Condition="[strSubjectModified.Length-intExcess&gt;CInt(io_Config(&quot;SharepointPathBuffer&quot;))]" DisplayName="Trimmable?" sap:VirtualizedContainerService.HintSize="770.4,940" sap2010:WorkflowViewState.IdRef="If_19">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <If.Then>
+                                              <Sequence sap:VirtualizedContainerService.HintSize="526,686" sap2010:WorkflowViewState.IdRef="Sequence_46">
+                                                <Sequence.Variables>
+                                                  <Variable x:TypeArguments="x:String" Name="strSubjectShortened" />
+                                                  <Variable x:TypeArguments="x:String" Name="strUploadPathShortened" />
+                                                </Sequence.Variables>
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <Assign DisplayName="Shorten the subject" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_35">
+                                                  <Assign.To>
+                                                    <OutArgument x:TypeArguments="x:String">[strSubjectShortened]</OutArgument>
+                                                  </Assign.To>
+                                                  <Assign.Value>
+                                                    <InArgument x:TypeArguments="x:String">[strSubjectModified.Substring(0,strSubjectModified.Length-intExcess).Trim]</InArgument>
+                                                  </Assign.Value>
+                                                </Assign>
+                                                <Assign DisplayName="Construct shortened upload path" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_36">
+                                                  <Assign.To>
+                                                    <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
+                                                  </Assign.To>
+                                                  <Assign.Value>
+                                                    <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectShortened]</InArgument>
+                                                  </Assign.Value>
+                                                </Assign>
+                                                <Assign sap2010:Annotation.AnnotationText="See if the new shortened subject is enough to reduce the excess to &lt;=0" DisplayName="Re-calculate excess" sap:VirtualizedContainerService.HintSize="484,104.4" sap2010:WorkflowViewState.IdRef="Assign_37">
+                                                  <Assign.To>
+                                                    <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
+                                                  </Assign.To>
+                                                  <Assign.Value>
+                                                    <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
+                                                  </Assign.Value>
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                </Assign>
+                                                <If Condition="[intExcess&gt;0]" DisplayName="If excess still &gt;0" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_18">
+                                                  <If.Then>
+                                                    <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_8" />
+                                                  </If.Then>
+                                                  <If.Else>
+                                                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_45">
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </Sequence>
+                                                  </If.Else>
+                                                </If>
+                                              </Sequence>
+                                            </If.Then>
+                                            <If.Else>
+                                              <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_9" />
+                                            </If.Else>
+                                          </If>
+                                        </If.Then>
+                                      </If>
+                                    </Sequence>
+                                    <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope - upload email and attachments" sap:VirtualizedContainerService.HintSize="848,3044" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_2" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[io_Config(&quot;SharepointURL&quot;).ToString]">
+                                      <usa:SharepointApplicationScope.Body>
+                                        <ActivityAction x:TypeArguments="us:SharePointContextInfo">
+                                          <ActivityAction.Argument>
+                                            <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
+                                          </ActivityAction.Argument>
+                                          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,2902" sap2010:WorkflowViewState.IdRef="Sequence_51">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:LogMessage DisplayName="DEBUG - Sharepoint folder" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Creating Sharepoint folder: &quot;+strUploadPath]" />
+                                            <usal:CreateFolder AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" sap2010:Annotation.AnnotationText="If folder already exists, this does nothing." ChooseFile="False" DisplayName="Create destination folder" sap:VirtualizedContainerService.HintSize="484,134.4" sap2010:WorkflowViewState.IdRef="CreateFolder_2" LibraryName="[io_Config(&quot;SharepointLibraryName&quot;).ToString]" RelativeUrl="[strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="True" ShowListName="False" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </usal:CreateFolder>
+                                            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{strUploadPath}]" DataTable="[IO_dtItems]" DisplayName="Add upload path to manifest" sap:VirtualizedContainerService.HintSize="484,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_9" />
+                                            <If Condition="[CBool(io_Config(&quot;boolPausePoint4&quot;).ToString)]" DisplayName="Pause Point 4?" sap:VirtualizedContainerService.HintSize="484,654.8" sap2010:WorkflowViewState.IdRef="If_21">
+                                              <If.Then>
+                                                <Sequence DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="280,464.4" sap2010:WorkflowViewState.IdRef="Sequence_48">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <InvokeMethod DisplayName="Stop timer - PP4" sap:VirtualizedContainerService.HintSize="238,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_14" MethodName="Stop">
+                                                    <InvokeMethod.TargetObject>
+                                                      <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
+                                                    </InvokeMethod.TargetObject>
+                                                  </InvokeMethod>
+                                                  <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="238,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Confirm Sharepoint upload path&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;The following path has been created in Sharepoint for the current email and any attachments to be uploaded to:&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&quot;+io_config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;If this Sharepoint path is suitable, please click Continue. If there is an issue with this Sharepoint path, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Confirm Sharepoint destination" IN_WidthHeight="[{650,400}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_5" />
+                                                  <InvokeMethod DisplayName="Start timer - PP4" sap:VirtualizedContainerService.HintSize="238,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_15" MethodName="Start">
+                                                    <InvokeMethod.TargetObject>
+                                                      <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
+                                                    </InvokeMethod.TargetObject>
+                                                  </InvokeMethod>
+                                                </Sequence>
+                                              </If.Then>
+                                              <If.Else>
+                                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_49">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                </Sequence>
+                                              </If.Else>
+                                            </If>
+                                            <ui:LogMessage DisplayName="Log message - Upload mail item - local path" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;Uploading email. Local path: &quot;+strSaveEmailPath]" />
+                                            <ui:LogMessage DisplayName="Log message - Upload mail item - destination" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Uploading email. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" />
+                                            <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload mail item" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_5" LocalPath="[strSaveEmailPath]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each attachment" sap:VirtualizedContainerService.HintSize="484,587.2" sap2010:WorkflowViewState.IdRef="ForEach`1_15" Values="[ieAttachments]">
+                                              <ui:ForEach.Body>
+                                                <ActivityAction x:TypeArguments="x:String">
+                                                  <ActivityAction.Argument>
+                                                    <DelegateInArgument x:TypeArguments="x:String" Name="attachment" />
+                                                  </ActivityAction.Argument>
+                                                  <Sequence sap:VirtualizedContainerService.HintSize="376,462.4" sap2010:WorkflowViewState.IdRef="Sequence_50">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <ui:LogMessage DisplayName="Log message - Upload Attachment - local path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Uploading attachment. Local path: &quot;+attachment]" />
+                                                    <ui:LogMessage DisplayName="Log Message - Upload Attachment - destination" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Info" Message="[&quot;Uploading attachment. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment).Trim]" />
+                                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload attachment" sap:VirtualizedContainerService.HintSize="334,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_6" LocalPath="[attachment]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment).Trim]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                                  </Sequence>
+                                                </ActivityAction>
+                                              </ui:ForEach.Body>
+                                            </ui:ForEach>
+                                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_15" StatusText="[&quot;Updating manifest&quot;]" />
+                                            <ui:WriteCsvFile AddHeaders="True" DataTable="[IO_dtItems]" Delimitator="Comma" DisplayName="Write manifest csv" FilePath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="484,156.4" sap2010:WorkflowViewState.IdRef="WriteCsvFile_2" ShouldQuote="True" />
+                                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Uploading updated manifest.&quot;]" />
+                                            <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload manifest" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_7" LocalPath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" LocalPathHintText="The current local path of the file" RelativeUrl="[IO_Config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+IO_Config(&quot;SharepointManifestPath&quot;).ToString]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                          </Sequence>
+                                        </ActivityAction>
+                                      </usa:SharepointApplicationScope.Body>
+                                    </usa:SharepointApplicationScope>
+                                  </Sequence>
+                                  <FlowStep.Next>
+                                    <FlowStep x:Name="__ReferenceID10">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <av:Point x:Key="ShapeLocation">200.2,1298.8</av:Point>
+                                          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Sequence DisplayName="Mark complete" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_53">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <Assign DisplayName="Set end folder to &quot;Completed&quot;" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_38">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">[io_Config("Completed")]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;Email and &quot;+ieAttachments.Count.ToString+&quot; associated attachments uploaded to Sharepoint.&quot;]" />
+                                      </Sequence>
+                                    </FlowStep>
+                                  </FlowStep.Next>
+                                </FlowStep>
+                              </FlowDecision.True>
+                              <FlowDecision.False>
+                                <FlowDecision x:Name="__ReferenceID7" Condition="[CBool(io_Config(&quot;boolPausePoint3&quot;).ToString)]" DisplayName="Pause Point 3?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_7">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <av:Point x:Key="ShapeLocation">460.2,1023.2</av:Point>
+                                      <av:Size x:Key="ShapeSize">82,87.2</av:Size>
+                                      <av:PointCollection x:Key="TrueConnector">460.2,1066.8 400.2,1066.8</av:PointCollection>
+                                      <av:PointCollection x:Key="FalseConnector">542.2,1066.8 572.2,1066.8 572.2,1155.6 400.2,1155.6</av:PointCollection>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <FlowDecision.True>
+                                    <FlowStep x:Name="__ReferenceID8">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <av:Point x:Key="ShapeLocation">200.2,1032.4</av:Point>
+                                          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                                          <av:PointCollection x:Key="ConnectorLocation">300.2,1101.2 300.2,1121.2</av:PointCollection>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Sequence DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_55">
                                         <Sequence.Variables>
-                                          <Variable x:TypeArguments="x:String" Name="strSubjectShortened" />
-                                          <Variable x:TypeArguments="x:String" Name="strUploadPathShortened" />
+                                          <Variable x:TypeArguments="sd1:DataTable" Name="dtFirstFive" />
                                         </Sequence.Variables>
                                         <sap:WorkflowViewStateService.ViewState>
                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                           </scg:Dictionary>
                                         </sap:WorkflowViewStateService.ViewState>
-                                        <Assign DisplayName="Shorten the subject" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_21">
-                                          <Assign.To>
-                                            <OutArgument x:TypeArguments="x:String">[strSubjectShortened]</OutArgument>
-                                          </Assign.To>
-                                          <Assign.Value>
-                                            <InArgument x:TypeArguments="x:String">[strSubjectModified.Substring(0,strSubjectModified.Length-intExcess).Trim]</InArgument>
-                                          </Assign.Value>
-                                        </Assign>
-                                        <Assign DisplayName="Construct shortened upload path" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_22">
-                                          <Assign.To>
-                                            <OutArgument x:TypeArguments="x:String">[strUploadPath]</OutArgument>
-                                          </Assign.To>
-                                          <Assign.Value>
-                                            <InArgument x:TypeArguments="x:String">[Today.Year.ToString+"/"+Today.ToString("MMMM")+"/"+strSubjectShortened]</InArgument>
-                                          </Assign.Value>
-                                        </Assign>
-                                        <Assign sap2010:Annotation.AnnotationText="See if the new shortened subject is enough to reduce the excess to &lt;=0" DisplayName="Re-calculate excess" sap:VirtualizedContainerService.HintSize="484,104.4" sap2010:WorkflowViewState.IdRef="Assign_24">
-                                          <Assign.To>
-                                            <OutArgument x:TypeArguments="x:Int32">[intExcess]</OutArgument>
-                                          </Assign.To>
-                                          <Assign.Value>
-                                            <InArgument x:TypeArguments="x:Int32">[(Regex.Match(io_Config("SharepointURL").ToString,"\/sites\/.*$").Value+"/"+io_Config("SharepointLibraryURL").ToString+"/"+strUploadPath+"/"+listFileNamesSorted(0)).Length - 248]</InArgument>
-                                          </Assign.Value>
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                        </Assign>
-                                        <If Condition="[intExcess&gt;0]" DisplayName="If excess still &gt;0" sap:VirtualizedContainerService.HintSize="484,250.4" sap2010:WorkflowViewState.IdRef="If_13">
+                                        <If Condition="[dtSharepointDuplicates.RowCount&gt;5]" DisplayName="If more than 5 duplicates found in Sharepoint" sap:VirtualizedContainerService.HintSize="844,464.8" sap2010:WorkflowViewState.IdRef="If_22">
                                           <If.Then>
-                                            <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_5" />
-                                          </If.Then>
-                                          <If.Else>
-                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_34">
+                                            <Sequence DisplayName="HTML table of first 5 rows" sap:VirtualizedContainerService.HintSize="420.8,304.8" sap2010:WorkflowViewState.IdRef="Sequence_54">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                 </scg:Dictionary>
                                               </sap:WorkflowViewStateService.ViewState>
+                                              <Assign DisplayName="Grab first 5 rows" sap:VirtualizedContainerService.HintSize="378.8,59.6" sap2010:WorkflowViewState.IdRef="Assign_39">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="sd1:DataTable">[dtFirstFive]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="sd1:DataTable">[dtSharepointDuplicates.AsEnumerable.Take(5).CopyToDataTable]</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                              <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
+                                                <ui:InvokeWorkflowFile.Arguments>
+                                                  <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtFirstFive]</InArgument>
+                                                  <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
+                                                </ui:InvokeWorkflowFile.Arguments>
+                                              </ui:InvokeWorkflowFile>
                                             </Sequence>
+                                          </If.Then>
+                                          <If.Else>
+                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
+                                              <ui:InvokeWorkflowFile.Arguments>
+                                                <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtSharepointDuplicates]</InArgument>
+                                                <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
+                                              </ui:InvokeWorkflowFile.Arguments>
+                                            </ui:InvokeWorkflowFile>
                                           </If.Else>
                                         </If>
+                                        <InvokeMethod DisplayName="Stop timer - PP3" sap:VirtualizedContainerService.HintSize="844,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_16" MethodName="Stop">
+                                          <InvokeMethod.TargetObject>
+                                            <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
+                                          </InvokeMethod.TargetObject>
+                                        </InvokeMethod>
+                                        <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="844,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Duplicate subject codes found in Sharepoint&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Files and folders with subject code &quot;+matchSubjectCode.Value+&quot; have been found in Sharepoint.&lt;/p&gt;&quot;+&#xA;If(dtFirstFive Is Nothing,&#xA;&#x9;&quot;&quot;,&#xA;&#x9;&quot;&lt;p&gt;&quot;+dtSharepointDuplicates.RowCount.ToString+&quot; files associated with &quot;+matchSubjectCode.Value+&quot; were found. The first five are:&lt;/p&gt;&quot;&#xA;)+&#xA;strDuplicatesTable+&#xA;&quot;&lt;p&gt;If these files have been correctly identified as pertaining to this subject code, please click Continue. If these files have been incorrectly identified, please click Stop.&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; if you believe these duplicates have been flagged incorrectly, please try the following before having the robot attempt to process &lt;strong&gt;this email&lt;/strong&gt; again:&quot;+&#xA;&quot;&lt;ul&gt;&quot;+&#xA;&quot;&lt;li&gt;Delete the robot's file manifest in Sharepoint, located at &quot;+io_Config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_Config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+io_Config(&quot;SharepointManifestPath&quot;).ToString+&quot;&lt;/li&gt;&quot;+&#xA;&quot;&lt;li&gt;Delete any empty Sharepoint folders with the code &quot;+matchSubjectCode.Value+&quot;&lt;/li&gt;&quot;+&#xA;&quot;&lt;/ul&gt;&quot;+&#xA;&quot;&lt;/p&gt;&quot;]" IN_PopupTitle="Sharepoint duplicates found" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_6" />
+                                        <InvokeMethod DisplayName="Start timer - PP3" sap:VirtualizedContainerService.HintSize="844,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_17" MethodName="Start">
+                                          <InvokeMethod.TargetObject>
+                                            <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
+                                          </InvokeMethod.TargetObject>
+                                        </InvokeMethod>
                                       </Sequence>
-                                    </If.Then>
-                                    <If.Else>
-                                      <Throw Exception="[new BusinessRuleException(&quot;Sharepoint filepath is too long. Trimming folder name to its minimum requested length is not sufficient. Please upload this email and its associated attachments manually.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_4" />
-                                    </If.Else>
-                                  </If>
-                                </If.Then>
-                              </If>
-                            </Sequence>
-                            <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope - upload email and attachments" sap:VirtualizedContainerService.HintSize="848,3044" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[io_Config(&quot;SharepointURL&quot;).ToString]">
-                              <usa:SharepointApplicationScope.Body>
-                                <ActivityAction x:TypeArguments="us:SharePointContextInfo">
-                                  <ActivityAction.Argument>
-                                    <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
-                                  </ActivityAction.Argument>
-                                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,2902" sap2010:WorkflowViewState.IdRef="Sequence_7">
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                    <ui:LogMessage DisplayName="DEBUG - Sharepoint folder" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Creating Sharepoint folder: &quot;+strUploadPath]" />
-                                    <usal:CreateFolder AttachmentsAction="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" sap2010:Annotation.AnnotationText="If folder already exists, this does nothing." ChooseFile="False" DisplayName="Create destination folder" sap:VirtualizedContainerService.HintSize="484,134.4" sap2010:WorkflowViewState.IdRef="CreateFolder_1" LibraryName="[io_Config(&quot;SharepointLibraryName&quot;).ToString]" RelativeUrl="[strUploadPath]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="True" ShowListName="False" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False">
-                                      <sap:WorkflowViewStateService.ViewState>
-                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                        </scg:Dictionary>
-                                      </sap:WorkflowViewStateService.ViewState>
-                                    </usal:CreateFolder>
-                                    <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{strUploadPath}]" DataTable="[IO_dtItems]" DisplayName="Add upload path to manifest" sap:VirtualizedContainerService.HintSize="484,189.2" sap2010:WorkflowViewState.IdRef="AddDataRow_6" />
-                                    <If Condition="[CBool(io_Config(&quot;boolPausePoint4&quot;).ToString)]" DisplayName="Pause Point 4?" sap:VirtualizedContainerService.HintSize="484,654.8" sap2010:WorkflowViewState.IdRef="If_2">
-                                      <If.Then>
-                                        <Sequence DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="280,464.4" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                                      <FlowStep.Next>
+                                        <FlowStep x:Name="__ReferenceID0">
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <av:Point x:Key="ShapeLocation">200.2,1121.2</av:Point>
+                                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
+                                              <av:PointCollection x:Key="ConnectorLocation">300.2,720 300.2,770</av:PointCollection>
                                             </scg:Dictionary>
                                           </sap:WorkflowViewStateService.ViewState>
-                                          <InvokeMethod DisplayName="Stop timer - PP4" sap:VirtualizedContainerService.HintSize="238,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_5" MethodName="Stop">
-                                            <InvokeMethod.TargetObject>
-                                              <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
-                                            </InvokeMethod.TargetObject>
-                                          </InvokeMethod>
-                                          <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 4" sap:VirtualizedContainerService.HintSize="238,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Confirm Sharepoint upload path&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;The following path has been created in Sharepoint for the current email and any attachments to be uploaded to:&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&quot;+io_config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;If this Sharepoint path is suitable, please click Continue. If there is an issue with this Sharepoint path, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Confirm Sharepoint destination" IN_WidthHeight="[{650,400}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_3" />
-                                          <InvokeMethod DisplayName="Start timer - PP4" sap:VirtualizedContainerService.HintSize="238,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_6" MethodName="Start">
-                                            <InvokeMethod.TargetObject>
-                                              <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
-                                            </InvokeMethod.TargetObject>
-                                          </InvokeMethod>
-                                        </Sequence>
-                                      </If.Then>
-                                      <If.Else>
-                                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_12">
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                        </Sequence>
-                                      </If.Else>
-                                    </If>
-                                    <ui:LogMessage DisplayName="DEBUG - Upload mail item - local path" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Uploading email. Local path: &quot;+strSaveEmailPath]" />
-                                    <ui:LogMessage DisplayName="DEBUG - Upload mail item - destination" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Uploading email. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" />
-                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload mail item" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_1" LocalPath="[strSaveEmailPath]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+strSubjectModified+&quot;.eml&quot;]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
-                                    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each attachment" sap:VirtualizedContainerService.HintSize="484,587.2" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[ieAttachments]">
-                                      <ui:ForEach.Body>
-                                        <ActivityAction x:TypeArguments="x:String">
-                                          <ActivityAction.Argument>
-                                            <DelegateInArgument x:TypeArguments="x:String" Name="attachment" />
-                                          </ActivityAction.Argument>
-                                          <Sequence sap:VirtualizedContainerService.HintSize="376,462.4" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                                          <Sequence DisplayName="Mark Sharepoint duplicate" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_56">
                                             <sap:WorkflowViewStateService.ViewState>
                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                               </scg:Dictionary>
                                             </sap:WorkflowViewStateService.ViewState>
-                                            <ui:LogMessage DisplayName="Log message - Upload Attachment - local path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Uploading attachment. Local path: &quot;+attachment]" />
-                                            <ui:LogMessage DisplayName="Log Message - Upload Attachment - destination" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Uploading attachment. Destination: &quot;+io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment).Trim]" />
-                                            <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload attachment" sap:VirtualizedContainerService.HintSize="334,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_3" LocalPath="[attachment]" LocalPathHintText="The current local path of the file" RelativeUrl="[io_config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+strUploadPath+&quot;/&quot;+Path.GetFileName(attachment).Trim]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
+                                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="334,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_16" StatusText="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
+                                            <Assign DisplayName="Set end folder to &quot;Not Actioned&quot;" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_40">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Object">[io_Config("NotActioned")]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
                                           </Sequence>
-                                        </ActivityAction>
-                                      </ui:ForEach.Body>
-                                    </ui:ForEach>
-                                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_9" StatusText="[&quot;Updating manifest&quot;]" />
-                                    <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[IO_dtItems]" Delimitator="Comma" DisplayName="Write manifest csv" FilePath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="484,156.4" sap2010:WorkflowViewState.IdRef="WriteCsvFile_1" />
-                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Uploading updated manifest.&quot;]" />
-                                    <usal:UploadFile AttachmentsAction="{x:Null}" PropertiesToAdd="{x:Null}" RelativeUrlHintText="{x:Null}" AllowOperationsOnASPXFiles="False" AllowOverwrite="True" CheckInFileAfterCreation="False" CheckOutFileBeforeOverwrite="False" ChooseFile="True" DisplayName="Upload manifest" sap:VirtualizedContainerService.HintSize="484,103.2" sap2010:WorkflowViewState.IdRef="UploadFile_4" LocalPath="[IO_Config(&quot;LocalDataPath&quot;).ToString+&quot;\&quot;+Path.GetFileName(IO_Config(&quot;SharepointManifestPath&quot;).ToString)]" LocalPathHintText="The current local path of the file" RelativeUrl="[IO_Config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+IO_Config(&quot;SharepointManifestPath&quot;).ToString]" ShowAttachFiles="False" ShowCAMLQuery="False" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="False" ShowLocalPath="True" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="True" ShowRename="False" ShowUserName="False" />
-                                  </Sequence>
-                                </ActivityAction>
-                              </usa:SharepointApplicationScope.Body>
-                            </usa:SharepointApplicationScope>
-                          </Sequence>
-                          <FlowStep.Next>
-                            <FlowStep x:Name="__ReferenceID10">
-                              <sap:WorkflowViewStateService.ViewState>
-                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                  <av:Point x:Key="ShapeLocation">200.2,1298.8</av:Point>
-                                  <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                                </scg:Dictionary>
-                              </sap:WorkflowViewStateService.ViewState>
-                              <Sequence DisplayName="Mark complete" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_13">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                                <Assign DisplayName="Set end folder to &quot;Completed&quot;" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_6">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:Object">[io_Config("Completed")]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Email and &quot;+ieAttachments.Count.ToString+&quot; associated attachments uploaded to Sharepoint.&quot;]" />
-                              </Sequence>
-                            </FlowStep>
+                                        </FlowStep>
+                                      </FlowStep.Next>
+                                    </FlowStep>
+                                  </FlowDecision.True>
+                                  <FlowDecision.False>
+                                    <x:Reference>__ReferenceID0</x:Reference>
+                                  </FlowDecision.False>
+                                </FlowDecision>
+                              </FlowDecision.False>
+                            </FlowDecision>
                           </FlowStep.Next>
                         </FlowStep>
                       </FlowDecision.True>
                       <FlowDecision.False>
-                        <FlowDecision x:Name="__ReferenceID7" Condition="[CBool(io_Config(&quot;boolPausePoint3&quot;).ToString)]" DisplayName="Pause Point 3?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_4">
+                        <FlowDecision x:Name="__ReferenceID13" Condition="[CBool(io_Config(&quot;boolPausePoint2&quot;).ToString)]" DisplayName="Pause Point 2?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_9">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              <av:Point x:Key="ShapeLocation">460.2,1023.2</av:Point>
+                              <av:Point x:Key="ShapeLocation">456.4,641.3</av:Point>
                               <av:Size x:Key="ShapeSize">82,87.2</av:Size>
-                              <av:PointCollection x:Key="TrueConnector">460.2,1066.8 400.2,1066.8</av:PointCollection>
-                              <av:PointCollection x:Key="FalseConnector">542.2,1066.8 572.2,1066.8 572.2,1155.6 400.2,1155.6</av:PointCollection>
+                              <av:PointCollection x:Key="TrueConnector">456.4,684.9 426.4,684.9 426.4,685.2 401.6,685.2</av:PointCollection>
+                              <av:PointCollection x:Key="FalseConnector">538.4,684.9 568.4,684.9 568.4,773.2 401.6,773.2</av:PointCollection>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
                           <FlowDecision.True>
-                            <FlowStep x:Name="__ReferenceID8">
+                            <FlowStep x:Name="__ReferenceID14">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                  <av:Point x:Key="ShapeLocation">200.2,1032.4</av:Point>
+                                  <av:Point x:Key="ShapeLocation">201.6,651.2</av:Point>
                                   <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                                  <av:PointCollection x:Key="ConnectorLocation">300.2,1101.2 300.2,1121.2</av:PointCollection>
+                                  <av:PointCollection x:Key="ConnectorLocation">301.6,719.2 301.6,739.2</av:PointCollection>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                              <Sequence DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                              <Sequence DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_57">
                                 <Sequence.Variables>
-                                  <Variable x:TypeArguments="sd1:DataTable" Name="dtFirstFive" />
+                                  <Variable x:TypeArguments="sd1:DataTable" Name="dtPausePoint2" />
                                 </Sequence.Variables>
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <If Condition="[dtSharepointDuplicates.RowCount&gt;5]" DisplayName="If more than 5 duplicates found in Sharepoint" sap:VirtualizedContainerService.HintSize="844,464.8" sap2010:WorkflowViewState.IdRef="If_4">
-                                  <If.Then>
-                                    <Sequence DisplayName="HTML table of first 5 rows" sap:VirtualizedContainerService.HintSize="420.8,304.8" sap2010:WorkflowViewState.IdRef="Sequence_24">
-                                      <sap:WorkflowViewStateService.ViewState>
-                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                        </scg:Dictionary>
-                                      </sap:WorkflowViewStateService.ViewState>
-                                      <Assign DisplayName="Grab first 5 rows" sap:VirtualizedContainerService.HintSize="378.8,59.6" sap2010:WorkflowViewState.IdRef="Assign_10">
-                                        <Assign.To>
-                                          <OutArgument x:TypeArguments="sd1:DataTable">[dtFirstFive]</OutArgument>
-                                        </Assign.To>
-                                        <Assign.Value>
-                                          <InArgument x:TypeArguments="sd1:DataTable">[dtSharepointDuplicates.AsEnumerable.Take(5).CopyToDataTable]</InArgument>
-                                        </Assign.Value>
-                                      </Assign>
-                                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
-                                        <ui:InvokeWorkflowFile.Arguments>
-                                          <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtFirstFive]</InArgument>
-                                          <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
-                                        </ui:InvokeWorkflowFile.Arguments>
-                                      </ui:InvokeWorkflowFile>
-                                    </Sequence>
-                                  </If.Then>
-                                  <If.Else>
-                                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
-                                      <ui:InvokeWorkflowFile.Arguments>
-                                        <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtSharepointDuplicates]</InArgument>
-                                        <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
-                                      </ui:InvokeWorkflowFile.Arguments>
-                                    </ui:InvokeWorkflowFile>
-                                  </If.Else>
-                                </If>
-                                <InvokeMethod DisplayName="Stop timer - PP3" sap:VirtualizedContainerService.HintSize="844,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_3" MethodName="Stop">
+                                <ui:FilterDataTable DataTable="[dtMailboxDuplicates]" DisplayName="Filter Data Table" FilterRowsMode="Remove" sap:VirtualizedContainerService.HintSize="378.8,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_4" OutputDataTable="[dtPausePoint2]" SelectColumnsMode="Remove">
+                                  <ui:FilterDataTable.Filters>
+                                    <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+                                      <ui:FilterOperationArgument Column="{x:Null}" Operand="{x:Null}" BooleanOperator="And" Operator="LT" />
+                                    </scg:List>
+                                  </ui:FilterDataTable.Filters>
+                                  <ui:FilterDataTable.SelectColumns>
+                                    <scg:List x:TypeArguments="InArgument" Capacity="4">
+                                      <InArgument x:TypeArguments="x:String">["Uid"]</InArgument>
+                                    </scg:List>
+                                  </ui:FilterDataTable.SelectColumns>
+                                </ui:FilterDataTable>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtPausePoint2]</InArgument>
+                                    <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                                <InvokeMethod DisplayName="Stop timer - PP2" sap:VirtualizedContainerService.HintSize="378.8,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_18" MethodName="Stop">
                                   <InvokeMethod.TargetObject>
                                     <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                                   </InvokeMethod.TargetObject>
                                 </InvokeMethod>
-                                <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="844,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Duplicate subject codes found in Sharepoint&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Files and folders with subject code &quot;+matchSubjectCode.Value+&quot; have been found in Sharepoint.&lt;/p&gt;&quot;+&#xA;If(dtFirstFive Is Nothing,&#xA;&#x9;&quot;&quot;,&#xA;&#x9;&quot;&lt;p&gt;&quot;+dtSharepointDuplicates.RowCount.ToString+&quot; files associated with &quot;+matchSubjectCode.Value+&quot; were found. The first five are:&lt;/p&gt;&quot;&#xA;)+&#xA;strDuplicatesTable+&#xA;&quot;&lt;p&gt;If these files have been correctly identified as pertaining to this subject code, please click Continue. If these files have been incorrectly identified, please click Stop.&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; if you believe these duplicates have been flagged incorrectly, please try the following before having the robot attempt to process &lt;strong&gt;this email&lt;/strong&gt; again:&quot;+&#xA;&quot;&lt;ul&gt;&quot;+&#xA;&quot;&lt;li&gt;Delete the robot's file manifest in Sharepoint, located at &quot;+io_Config(&quot;SharepointURL&quot;).ToString+&quot;/&quot;+io_Config(&quot;SharepointLibraryURL&quot;).ToString+&quot;/&quot;+io_Config(&quot;SharepointManifestPath&quot;).ToString+&quot;&lt;/li&gt;&quot;+&#xA;&quot;&lt;li&gt;Delete any empty Sharepoint folders with the code &quot;+matchSubjectCode.Value+&quot;&lt;/li&gt;&quot;+&#xA;&quot;&lt;/ul&gt;&quot;+&#xA;&quot;&lt;/p&gt;&quot;]" IN_PopupTitle="Sharepoint duplicates found" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_2" />
-                                <InvokeMethod DisplayName="Start timer - PP3" sap:VirtualizedContainerService.HintSize="844,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_4" MethodName="Start">
+                                <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="378.8,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Duplicate subject codes found in Mailbox&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Emails with subject code &quot;+matchSubjectCode.Value+&quot; have been found in one or more mailbox folders.&lt;/p&gt;&quot;+&#xA;strDuplicatesTable+&#xA;&quot;&lt;p&gt;If these duplicates have been correctly identified, please click Continue. If there is an error with one or more of these identified emails, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Mailbox duplicates found" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_7" />
+                                <InvokeMethod DisplayName="Start timer - PP2" sap:VirtualizedContainerService.HintSize="378.8,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_19" MethodName="Start">
                                   <InvokeMethod.TargetObject>
                                     <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                                   </InvokeMethod.TargetObject>
                                 </InvokeMethod>
                               </Sequence>
                               <FlowStep.Next>
-                                <FlowStep x:Name="__ReferenceID0">
+                                <FlowStep x:Name="__ReferenceID1">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <av:Point x:Key="ShapeLocation">200.2,1121.2</av:Point>
+                                      <av:Point x:Key="ShapeLocation">201.6,739.2</av:Point>
                                       <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                                      <av:PointCollection x:Key="ConnectorLocation">300.2,720 300.2,770</av:PointCollection>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
-                                  <Sequence DisplayName="Mark Sharepoint duplicate" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                  <Sequence DisplayName="Mark mailbox duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_59">
                                     <sap:WorkflowViewStateService.ViewState>
                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                       </scg:Dictionary>
                                     </sap:WorkflowViewStateService.ViewState>
-                                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="334,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_7" StatusText="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
-                                    <Assign DisplayName="Set end folder to &quot;Not Actioned&quot;" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="519.6,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_17" StatusText="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
+                                    <Assign DisplayName="Set end folder to &quot;Not Actioned&quot;" sap:VirtualizedContainerService.HintSize="519.6,59.6" sap2010:WorkflowViewState.IdRef="Assign_41">
                                       <Assign.To>
                                         <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
                                       </Assign.To>
@@ -685,14 +811,42 @@
                                         <InArgument x:TypeArguments="x:Object">[io_Config("NotActioned")]</InArgument>
                                       </Assign.Value>
                                     </Assign>
-                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in Sharepoint. Moving current transaction email to mailbox folder '&quot;+io_Config(&quot;NotActioned&quot;).ToString+&quot;'.&quot;]" />
+                                    <ui:ForEach x:TypeArguments="umm:Office365Message" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="519.6,561.6" sap2010:WorkflowViewState.IdRef="ForEach`1_18" Values="[listMailboxDuplicates]">
+                                      <ui:ForEach.Body>
+                                        <ActivityAction x:TypeArguments="umm:Office365Message">
+                                          <ActivityAction.Argument>
+                                            <DelegateInArgument x:TypeArguments="umm:Office365Message" Name="mail" />
+                                          </ActivityAction.Argument>
+                                          <If sap2010:Annotation.AnnotationText="This condition is a bit of a mess, but the gist is:&#xA;- Filter datatable on current mail items Uid value&#xA;- Get the Source value from the first row in the collection (only 1 row should return anyway)&#xA;- Check whether current mail is in the ToProcess folder&#xA;- If it is, move it to the NotActioned folder" Condition="[dtMailboxDuplicates.Select(&quot;Uid='&quot;+mail.Headers(&quot;Uid&quot;)+&quot;'&quot;)(0)(&quot;Folder&quot;).ToString=io_Config(&quot;ToProcess&quot;).ToString]" DisplayName="If mail source is in &quot;ToProcess&quot; folder" sap:VirtualizedContainerService.HintSize="484,436.8" sap2010:WorkflowViewState.IdRef="If_23">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <If.Then>
+                                              <umam:MoveMail Account="[io_Config(&quot;AccountName&quot;).ToString]" DestinationFolderName="[io_Config(&quot;NotActioned&quot;).ToString]" DisplayName="Move Mail" sap:VirtualizedContainerService.HintSize="334,136" sap2010:WorkflowViewState.IdRef="MoveMail_1" Message="[mail]" />
+                                            </If.Then>
+                                            <If.Else>
+                                              <Sequence sap:VirtualizedContainerService.HintSize="200,84" sap2010:WorkflowViewState.IdRef="Sequence_58">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                              </Sequence>
+                                            </If.Else>
+                                          </If>
+                                        </ActivityAction>
+                                      </ui:ForEach.Body>
+                                    </ui:ForEach>
+                                    <ui:LogMessage DisplayName="Log Message - mailbox duplicates" sap:VirtualizedContainerService.HintSize="519.6,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
                                   </Sequence>
                                 </FlowStep>
                               </FlowStep.Next>
                             </FlowStep>
                           </FlowDecision.True>
                           <FlowDecision.False>
-                            <x:Reference>__ReferenceID0</x:Reference>
+                            <x:Reference>__ReferenceID1</x:Reference>
                           </FlowDecision.False>
                         </FlowDecision>
                       </FlowDecision.False>
@@ -701,322 +855,199 @@
                 </FlowStep>
               </FlowDecision.True>
               <FlowDecision.False>
-                <FlowDecision x:Name="__ReferenceID13" Condition="[CBool(io_Config(&quot;boolPausePoint2&quot;).ToString)]" DisplayName="Pause Point 2?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_6">
+                <FlowDecision x:Name="__ReferenceID3" Condition="[CBool(io_Config(&quot;boolPausePoint1&quot;).ToString)]" DisplayName="Pause Point 1?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_11">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                      <av:Point x:Key="ShapeLocation">456.4,641.3</av:Point>
+                      <av:Point x:Key="ShapeLocation">461.6,276.4</av:Point>
                       <av:Size x:Key="ShapeSize">82,87.2</av:Size>
-                      <av:PointCollection x:Key="TrueConnector">456.4,684.9 426.4,684.9 426.4,685.2 401.6,685.2</av:PointCollection>
-                      <av:PointCollection x:Key="FalseConnector">538.4,684.9 568.4,684.9 568.4,773.2 401.6,773.2</av:PointCollection>
+                      <av:PointCollection x:Key="TrueConnector">461.6,320 401.6,320</av:PointCollection>
+                      <av:PointCollection x:Key="FalseConnector">543.6,320 573.6,320 573.6,408.8 401.6,408.8</av:PointCollection>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                   <FlowDecision.True>
-                    <FlowStep x:Name="__ReferenceID14">
+                    <FlowStep x:Name="__ReferenceID4">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <av:Point x:Key="ShapeLocation">201.6,651.2</av:Point>
+                          <av:Point x:Key="ShapeLocation">201.6,285.6</av:Point>
                           <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                          <av:PointCollection x:Key="ConnectorLocation">301.6,719.2 301.6,739.2</av:PointCollection>
+                          <av:PointCollection x:Key="ConnectorLocation">301.6,354.4 301.6,374.4</av:PointCollection>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                      <Sequence DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                      <Sequence DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_60">
                         <Sequence.Variables>
-                          <Variable x:TypeArguments="sd1:DataTable" Name="dtPausePoint2" />
+                          <Variable x:TypeArguments="x:String" Name="strProblemAttachments" />
                         </Sequence.Variables>
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:FilterDataTable DataTable="[dtMailboxDuplicates]" DisplayName="Filter Data Table" FilterRowsMode="Remove" sap:VirtualizedContainerService.HintSize="378.8,163.2" sap2010:WorkflowViewState.IdRef="FilterDataTable_2" OutputDataTable="[dtPausePoint2]" SelectColumnsMode="Remove">
-                          <ui:FilterDataTable.Filters>
-                            <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
-                              <ui:FilterOperationArgument Column="{x:Null}" Operand="{x:Null}" BooleanOperator="And" Operator="LT" />
-                            </scg:List>
-                          </ui:FilterDataTable.Filters>
-                          <ui:FilterDataTable.SelectColumns>
-                            <scg:List x:TypeArguments="InArgument" Capacity="4">
-                              <InArgument x:TypeArguments="x:String">["Uid"]</InArgument>
-                            </scg:List>
-                          </ui:FilterDataTable.SelectColumns>
-                        </ui:FilterDataTable>
-                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Process\Process Subflows\Convert Datatable to HTML.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="378.8,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Process\Process Subflows\Convert Datatable to HTML.xaml">
-                          <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="sd1:DataTable" x:Key="in_dtTable">[dtPausePoint2]</InArgument>
-                            <OutArgument x:TypeArguments="x:String" x:Key="out_strHTMLTable">[strDuplicatesTable]</OutArgument>
-                          </ui:InvokeWorkflowFile.Arguments>
-                        </ui:InvokeWorkflowFile>
-                        <InvokeMethod DisplayName="Stop timer - PP2" sap:VirtualizedContainerService.HintSize="378.8,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_8" MethodName="Stop">
+                        <ui:ForEach x:TypeArguments="snm:Attachment" CurrentIndex="{x:Null}" DisplayName="For Each problem attachment" sap:VirtualizedContainerService.HintSize="434,184.8" sap2010:WorkflowViewState.IdRef="ForEach`1_17" Values="[listProblemAttachments]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="snm:Attachment">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="snm:Attachment" Name="attachment" />
+                              </ActivityAction.Argument>
+                              <Assign DisplayName="Create HTML list" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_42">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[strProblemAttachments]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[strProblemAttachments+"&lt;li&gt;Email attachment is "+attachment.Name.Length.ToString+" characters long. Attachment name: '"+attachment.Name+"'&lt;/li&gt;"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                        </ui:ForEach>
+                        <InvokeMethod DisplayName="Stop timer - PP1" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_20" MethodName="Stop">
                           <InvokeMethod.TargetObject>
                             <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                           </InvokeMethod.TargetObject>
                         </InvokeMethod>
-                        <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="378.8,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Duplicate subject codes found in Mailbox&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Emails with subject code &quot;+matchSubjectCode.Value+&quot; have been found in one or more mailbox folders.&lt;/p&gt;&quot;+&#xA;strDuplicatesTable+&#xA;&quot;&lt;p&gt;If these duplicates have been correctly identified, please click Continue. If there is an error with one or more of these identified emails, please click Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Mailbox duplicates found" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_4" />
-                        <InvokeMethod DisplayName="Start timer - PP2" sap:VirtualizedContainerService.HintSize="378.8,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_9" MethodName="Start">
+                        <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="434,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Email format issue identified&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Email subjects processed by this automation should contain a 6 digit reference code. Email subjects and attachments processed by this automation are required to be no more than 200 characters in length.&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;The current transaction item with subject '&quot;+in_TransactionItem.Subject+&quot;' has the following issues:&lt;/p&gt;&quot;+&#xA;&quot;&lt;ul&gt;&quot;+&#xA;If(Not matchSubjectCode.Success,&#xA;&#x9;&quot;&lt;li&gt;The email subject does not contain a 6 digit reference code&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;If(in_TransactionItem.Subject.Length&gt;200,&#xA;&#x9;&quot;&lt;li&gt;The email subject is &quot;+in_TransactionItem.Subject.Length.ToString+&quot; characters long&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;strProblemAttachments+&#xA;&quot;&lt;/ul&gt;&quot;+&#xA;&quot;&lt;p&gt;If this email has been correctly identified for return, please press Continue.&lt;br&gt;If this email has been incorrectly identified, please press Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Email format issue identified" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_8" />
+                        <InvokeMethod DisplayName="Start timer - PP1" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_21" MethodName="Start">
                           <InvokeMethod.TargetObject>
                             <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                           </InvokeMethod.TargetObject>
                         </InvokeMethod>
                       </Sequence>
                       <FlowStep.Next>
-                        <FlowStep x:Name="__ReferenceID1">
+                        <FlowStep x:Name="__ReferenceID2">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <av:Point x:Key="ShapeLocation">201.6,739.2</av:Point>
+                              <av:Point x:Key="ShapeLocation">201.6,374.4</av:Point>
                               <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <Sequence DisplayName="Mark mailbox duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                          <Sequence DisplayName="Return email" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_61">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="519.6,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_5" StatusText="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
-                            <Assign DisplayName="Set end folder to &quot;Not Actioned&quot;" sap:VirtualizedContainerService.HintSize="519.6,59.6" sap2010:WorkflowViewState.IdRef="Assign_8">
+                            <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="434,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_18" StatusText="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
+                            <Assign sap2010:Annotation.AnnotationText="Alternative to &quot;Completed&quot; folder in SetTransactionStatus" DisplayName="Set end folder to &quot;Returned&quot;" sap:VirtualizedContainerService.HintSize="434,104.4" sap2010:WorkflowViewState.IdRef="Assign_43">
                               <Assign.To>
                                 <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
                               </Assign.To>
                               <Assign.Value>
-                                <InArgument x:TypeArguments="x:Object">[io_Config("NotActioned")]</InArgument>
+                                <InArgument x:TypeArguments="x:Object">[io_Config("Returned")]</InArgument>
                               </Assign.Value>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
                             </Assign>
-                            <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each duplicate email" sap:VirtualizedContainerService.HintSize="519.6,513.6" sap2010:WorkflowViewState.IdRef="ForEach`1_7" Values="[listMailboxDuplicates]">
-                              <ui:ForEach.Body>
-                                <ActivityAction x:TypeArguments="snm:MailMessage">
-                                  <ActivityAction.Argument>
-                                    <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="mail" />
-                                  </ActivityAction.Argument>
-                                  <If sap2010:Annotation.AnnotationText="This condition is a bit of a mess, but the gist is:&#xA;- Filter datatable on current mail items Uid value&#xA;- Get the Source value from the first row in the collection (only 1 row should return anyway)&#xA;- Check whether current mail is in the ToProcess folder&#xA;- If it is, move it to the NotActioned folder" Condition="[dtMailboxDuplicates.Select(&quot;Uid='&quot;+mail.Headers(&quot;Uid&quot;)+&quot;'&quot;)(0)(&quot;Folder&quot;).ToString=io_Config(&quot;ToProcess&quot;).ToString]" DisplayName="If mail source is in &quot;ToProcess&quot; folder" sap:VirtualizedContainerService.HintSize="484,388.8" sap2010:WorkflowViewState.IdRef="If_6">
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                    <If.Then>
-                                      <ui:MoveOutlookMessage Account="{x:Null}" DisplayName="Move Duplicate Mail Message" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="MoveOutlookMessage_2" MailFolder="[io_Config(&quot;NotActioned&quot;).ToString]" MailMessage="[mail]" />
-                                    </If.Then>
-                                    <If.Else>
-                                      <Sequence sap:VirtualizedContainerService.HintSize="200,84" sap2010:WorkflowViewState.IdRef="Sequence_28">
-                                        <sap:WorkflowViewStateService.ViewState>
-                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                          </scg:Dictionary>
-                                        </sap:WorkflowViewStateService.ViewState>
-                                      </Sequence>
-                                    </If.Else>
-                                  </If>
-                                </ActivityAction>
-                              </ui:ForEach.Body>
-                            </ui:ForEach>
-                            <ui:LogMessage DisplayName="Log Message - mailbox duplicates" sap:VirtualizedContainerService.HintSize="519.6,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[&quot;Existing emails with subject code &quot;+matchSubjectCode.Value+&quot; found in mailbox. Moving current transaction email and any duplicates from 'To Process' folder to 'Not Actioned' folder.&quot;]" />
+                            <ui:LogMessage DisplayName="Log Message - return email" sap:VirtualizedContainerService.HintSize="434,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Warn" Message="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
+                            <umam:ReplyToMail AddBCC="{x:Null}" AddCC="{x:Null}" AddTo="{x:Null}" AttachmentsCollection="{x:Null}" Account="[io_Config(&quot;EmailOnBehalf&quot;).ToString]" Body="[io_Config(&quot;ReturnEmailTemplate&quot;).ToString]" DisplayName="Reply to Mail" sap:VirtualizedContainerService.HintSize="434,355.2" sap2010:WorkflowViewState.IdRef="ReplyToMail_1" Importance="Normal" IsBodyHTML="True" IsDraft="False" Message="[in_TransactionItem]" NewSubject="[&quot;RE: &quot;+IN_TransactionItem.Subject]" ReplyToAll="False">
+                              <umam:ReplyToMail.Attachments>
+                                <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                              </umam:ReplyToMail.Attachments>
+                            </umam:ReplyToMail>
                           </Sequence>
                         </FlowStep>
                       </FlowStep.Next>
                     </FlowStep>
                   </FlowDecision.True>
                   <FlowDecision.False>
-                    <x:Reference>__ReferenceID1</x:Reference>
+                    <x:Reference>__ReferenceID2</x:Reference>
                   </FlowDecision.False>
                 </FlowDecision>
               </FlowDecision.False>
             </FlowDecision>
-          </FlowStep.Next>
-        </FlowStep>
-      </FlowDecision.True>
-      <FlowDecision.False>
-        <FlowDecision x:Name="__ReferenceID3" Condition="[CBool(io_Config(&quot;boolPausePoint1&quot;).ToString)]" DisplayName="Pause Point 1?" sap:VirtualizedContainerService.HintSize="82,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_2">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-              <av:Point x:Key="ShapeLocation">461.6,276.4</av:Point>
-              <av:Size x:Key="ShapeSize">82,87.2</av:Size>
-              <av:PointCollection x:Key="TrueConnector">461.6,320 401.6,320</av:PointCollection>
-              <av:PointCollection x:Key="FalseConnector">543.6,320 573.6,320 573.6,408.8 401.6,408.8</av:PointCollection>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <FlowDecision.True>
-            <FlowStep x:Name="__ReferenceID4">
+            <x:Reference>__ReferenceID3</x:Reference>
+            <x:Reference>__ReferenceID4</x:Reference>
+            <x:Reference>__ReferenceID2</x:Reference>
+            <x:Reference>__ReferenceID5</x:Reference>
+            <x:Reference>__ReferenceID6</x:Reference>
+            <x:Reference>__ReferenceID7</x:Reference>
+            <x:Reference>__ReferenceID8</x:Reference>
+            <x:Reference>__ReferenceID0</x:Reference>
+            <x:Reference>__ReferenceID9</x:Reference>
+            <x:Reference>__ReferenceID10</x:Reference>
+            <x:Reference>__ReferenceID11</x:Reference>
+            <x:Reference>__ReferenceID12</x:Reference>
+            <x:Reference>__ReferenceID13</x:Reference>
+            <x:Reference>__ReferenceID14</x:Reference>
+            <x:Reference>__ReferenceID1</x:Reference>
+            <FlowStep x:Name="__ReferenceID16">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <av:Point x:Key="ShapeLocation">201.6,285.6</av:Point>
+                  <av:Point x:Key="ShapeLocation">200,97.7</av:Point>
                   <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                  <av:PointCollection x:Key="ConnectorLocation">301.6,354.4 301.6,374.4</av:PointCollection>
+                  <av:PointCollection x:Key="ConnectorLocation">300,166.5 300,186.5</av:PointCollection>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Sequence DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
-                <Sequence.Variables>
-                  <Variable x:TypeArguments="x:String" Name="strProblemAttachments" />
-                </Sequence.Variables>
+              <Sequence DisplayName="Check subject code, save mail item" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_38">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:ForEach x:TypeArguments="snm:Attachment" CurrentIndex="{x:Null}" DisplayName="For Each problem attachment" sap:VirtualizedContainerService.HintSize="434,184.8" sap2010:WorkflowViewState.IdRef="ForEach`1_12" Values="[listProblemAttachments]">
-                  <ui:ForEach.Body>
-                    <ActivityAction x:TypeArguments="snm:Attachment">
-                      <ActivityAction.Argument>
-                        <DelegateInArgument x:TypeArguments="snm:Attachment" Name="attachment" />
-                      </ActivityAction.Argument>
-                      <Assign DisplayName="Create HTML list" sap:VirtualizedContainerService.HintSize="262.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_16">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[strProblemAttachments]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[strProblemAttachments+"&lt;li&gt;Email attachment is "+attachment.Name.Length.ToString+" characters long. Attachment name: '"+attachment.Name+"'&lt;/li&gt;"]</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                    </ActivityAction>
-                  </ui:ForEach.Body>
-                </ui:ForEach>
-                <InvokeMethod DisplayName="Stop timer - PP1" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="Stop">
-                  <InvokeMethod.TargetObject>
-                    <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
-                  </InvokeMethod.TargetObject>
-                </InvokeMethod>
-                <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="434,22" IN_CSS_filepath="[&quot;/file://&quot; + Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Email format issue identified&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Email subjects processed by this automation should contain a 6 digit reference code. Email subjects and attachments processed by this automation are required to be no more than 200 characters in length.&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;The current transaction item with subject '&quot;+in_TransactionItem.Subject+&quot;' has the following issues:&lt;/p&gt;&quot;+&#xA;&quot;&lt;ul&gt;&quot;+&#xA;If(Not matchSubjectCode.Success,&#xA;&#x9;&quot;&lt;li&gt;The email subject does not contain a 6 digit reference code&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;If(in_TransactionItem.Subject.Length&gt;200,&#xA;&#x9;&quot;&lt;li&gt;The email subject is &quot;+in_TransactionItem.Subject.Length.ToString+&quot; characters long&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;strProblemAttachments+&#xA;&quot;&lt;/ul&gt;&quot;+&#xA;&quot;&lt;p&gt;If this email has been correctly identified for return, please press Continue.&lt;br&gt;If this email has been incorrectly identified, please press Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Email format issue identified" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_1" />
-                <InvokeMethod DisplayName="Start timer - PP1" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_2" MethodName="Start">
-                  <InvokeMethod.TargetObject>
-                    <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
-                  </InvokeMethod.TargetObject>
-                </InvokeMethod>
-              </Sequence>
-              <FlowStep.Next>
-                <FlowStep x:Name="__ReferenceID2">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <av:Point x:Key="ShapeLocation">201.6,374.4</av:Point>
-                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <Sequence DisplayName="Return email" sap:VirtualizedContainerService.HintSize="376,626" sap2010:WorkflowViewState.IdRef="Sequence_2">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                    <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="334,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_3" StatusText="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
-                    <Assign sap2010:Annotation.AnnotationText="Alternative to &quot;Completed&quot; folder in SetTransactionStatus" DisplayName="Set end folder to &quot;Returned&quot;" sap:VirtualizedContainerService.HintSize="334,104.4" sap2010:WorkflowViewState.IdRef="Assign_1">
-                      <Assign.To>
-                        <OutArgument x:TypeArguments="x:Object">[io_Config("EndFolder")]</OutArgument>
-                      </Assign.To>
-                      <Assign.Value>
-                        <InArgument x:TypeArguments="x:Object">[io_Config("Returned")]</InArgument>
-                      </Assign.Value>
+                <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_10" StatusText="[&quot;Checking for subject code&quot;]" />
+                <Assign DisplayName="Get subject code" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_25">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="str:Match">[matchSubjectCode]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="str:Match">[System.Text.RegularExpressions.Regex.Match(in_TransactionItem.Subject,"\d{6}")]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="Replace special characters for paths" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_26">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[strSubjectModified]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(in_TransactionItem.Subject,"["+Chr(34)+"*:&lt;&gt;?\\|]","").Replace("/","_").Trim]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="Create path for saving email" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_27">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[io_Config("LocalDataPath").ToString+"\"+strSubjectModified+".eml"]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <If Condition="[strSaveEmailPath.Length&gt;248]" DisplayName="If path length too long" sap:VirtualizedContainerService.HintSize="484,475.6" sap2010:WorkflowViewState.IdRef="If_14">
+                  <If.Then>
+                    <Sequence DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="376,285.2" sap2010:WorkflowViewState.IdRef="Sequence_37">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                    </Assign>
-                    <ui:LogMessage DisplayName="Log Message - return email" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Warn" Message="[&quot;Email subject exceeds character limit. Returning email and ending transaction.&quot;]" />
-                    <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" ContinueOnError="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[io_Config(&quot;ReturnEmailTemplate&quot;).ToString]" DisplayName="Return email" sap:VirtualizedContainerService.HintSize="334,148.8" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="True" IsDraft="False" Sensitivity="Normal" SentOnBehalfOfName="[io_Config(&quot;EmailOnBehalf&quot;).ToString]" Subject="[&quot;RE: &quot;+IN_TransactionItem.Subject]" To="[IN_TransactionItem.From.ToString]">
-                      <ui:SendOutlookMail.Files>
-                        <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
-                          <InArgument x:TypeArguments="x:String">[strSaveEmailPath]</InArgument>
-                        </scg:List>
-                      </ui:SendOutlookMail.Files>
-                    </ui:SendOutlookMail>
-                  </Sequence>
-                </FlowStep>
+                      <Assign DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_28">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[Regex.Replace(strSaveEmailPath,"\.eml$","").Substring(0,244)+".eml"]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:LogMessage DisplayName="Log message - shorten path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;Shortening email local file path: &quot;+strSaveEmailPath]" />
+                    </Sequence>
+                  </If.Then>
+                </If>
+                <ui:SaveMail DisplayName="Save Mail Message" FilePath="[strSaveEmailPath]" sap:VirtualizedContainerService.HintSize="484,88" sap2010:WorkflowViewState.IdRef="SaveMail_3" MailMessage="[in_TransactionItem]" />
+                <Assign DisplayName="Filter attachment name lengths &gt;200" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_29">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="scg:List(snm:Attachment)">[listProblemAttachments]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="scg:List(snm:Attachment)">[in_TransactionItem.Attachments.where(function(x) x.Name.Length&gt;200).ToList]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+              <FlowStep.Next>
+                <x:Reference>__ReferenceID15</x:Reference>
               </FlowStep.Next>
             </FlowStep>
-          </FlowDecision.True>
-          <FlowDecision.False>
-            <x:Reference>__ReferenceID2</x:Reference>
-          </FlowDecision.False>
-        </FlowDecision>
-      </FlowDecision.False>
-    </FlowDecision>
-    <x:Reference>__ReferenceID3</x:Reference>
-    <x:Reference>__ReferenceID4</x:Reference>
-    <x:Reference>__ReferenceID2</x:Reference>
-    <x:Reference>__ReferenceID5</x:Reference>
-    <x:Reference>__ReferenceID6</x:Reference>
-    <x:Reference>__ReferenceID7</x:Reference>
-    <x:Reference>__ReferenceID8</x:Reference>
-    <x:Reference>__ReferenceID0</x:Reference>
-    <x:Reference>__ReferenceID9</x:Reference>
-    <x:Reference>__ReferenceID10</x:Reference>
-    <x:Reference>__ReferenceID11</x:Reference>
-    <x:Reference>__ReferenceID12</x:Reference>
-    <x:Reference>__ReferenceID13</x:Reference>
-    <x:Reference>__ReferenceID14</x:Reference>
-    <x:Reference>__ReferenceID1</x:Reference>
-    <FlowStep x:Name="__ReferenceID16">
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <av:Point x:Key="ShapeLocation">200,97.7</av:Point>
-          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
-          <av:PointCollection x:Key="ConnectorLocation">300,166.5 300,186.5</av:PointCollection>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-      <Sequence DisplayName="Check subject code, save mail item" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_29">
-        <sap:WorkflowViewStateService.ViewState>
-          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          </scg:Dictionary>
-        </sap:WorkflowViewStateService.ViewState>
-        <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="484,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[&quot;Checking for subject code&quot;]" />
-        <Assign DisplayName="Get subject code" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_17">
-          <Assign.To>
-            <OutArgument x:TypeArguments="str:Match">[matchSubjectCode]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="str:Match">[System.Text.RegularExpressions.Regex.Match(in_TransactionItem.Subject,"\d{6}")]</InArgument>
-          </Assign.Value>
-        </Assign>
-        <Assign DisplayName="Replace special characters for paths" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_12">
-          <Assign.To>
-            <OutArgument x:TypeArguments="x:String">[strSubjectModified]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Replace(in_TransactionItem.Subject,"["+Chr(34)+"*:&lt;&gt;?\\|]","").Replace("/","_").Trim]</InArgument>
-          </Assign.Value>
-        </Assign>
-        <Assign DisplayName="Create path for saving email" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_13">
-          <Assign.To>
-            <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="x:String">[io_Config("LocalDataPath").ToString+"\"+strSubjectModified+".eml"]</InArgument>
-          </Assign.Value>
-        </Assign>
-        <If Condition="[strSaveEmailPath.Length&gt;248]" DisplayName="If path length too long" sap:VirtualizedContainerService.HintSize="484,475.6" sap2010:WorkflowViewState.IdRef="If_7">
-          <If.Then>
-            <Sequence DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="376,285.2" sap2010:WorkflowViewState.IdRef="Sequence_35">
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <Assign DisplayName="Shorten path" sap:VirtualizedContainerService.HintSize="334,59.6" sap2010:WorkflowViewState.IdRef="Assign_14">
-                <Assign.To>
-                  <OutArgument x:TypeArguments="x:String">[strSaveEmailPath]</OutArgument>
-                </Assign.To>
-                <Assign.Value>
-                  <InArgument x:TypeArguments="x:String">[Regex.Replace(strSaveEmailPath,"\.eml$","").Substring(0,244)+".eml"]</InArgument>
-                </Assign.Value>
-              </Assign>
-              <ui:LogMessage DisplayName="Log message - shorten path" sap:VirtualizedContainerService.HintSize="334,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Shortening email local file path: &quot;+strSaveEmailPath]" />
-            </Sequence>
-          </If.Then>
-        </If>
-        <ui:SaveMail DisplayName="Save Mail Message" FilePath="[strSaveEmailPath]" sap:VirtualizedContainerService.HintSize="484,88" sap2010:WorkflowViewState.IdRef="SaveMail_2" MailMessage="[in_TransactionItem]" />
-        <Assign DisplayName="Filter attachment name lengths &gt;200" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_15">
-          <Assign.To>
-            <OutArgument x:TypeArguments="scg:List(snm:Attachment)">[listProblemAttachments]</OutArgument>
-          </Assign.To>
-          <Assign.Value>
-            <InArgument x:TypeArguments="scg:List(snm:Attachment)">[in_TransactionItem.Attachments.where(function(x) x.Name.Length&gt;200).ToList]</InArgument>
-          </Assign.Value>
-        </Assign>
-      </Sequence>
-      <FlowStep.Next>
-        <x:Reference>__ReferenceID15</x:Reference>
-      </FlowStep.Next>
-    </FlowStep>
-  </Flowchart>
+          </Flowchart>
+        </ActivityAction>
+      </uma:Office365ApplicationScope.Body>
+    </uma:Office365ApplicationScope>
+  </Sequence>
 </Activity>

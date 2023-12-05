@@ -5,10 +5,11 @@
   "dependencies": {
     "Logging": "[1.0.10]",
     "Pop.Ups": "[1.0.3]",
-    "UiPath.Excel.Activities": "[2.11.4]",
+    "UiPath.Excel.Activities": "[2.22.3]",
     "UiPath.Form.Activities": "[1.8.0]",
     "UiPath.FormActivityLibrary": "[1.8.0]",
     "UiPath.Mail.Activities": "[1.21.257-dev.437]",
+    "UiPath.MicrosoftOffice365.Activities": "[2.2.7]",
     "UiPath.System.Activities": "[22.10.8]",
     "UiPath.UIAutomation.Activities": "[20.4.2]",
     "UiPathTeam.SharePoint.Activities": "[1.7.0]"
