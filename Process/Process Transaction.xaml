@@ -11,7 +11,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>731.2,1722.8</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1410,1724.4</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Process_Transaction_2_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -68,7 +68,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="50">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="100">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -119,21 +119,23 @@
       <AssemblyReference>NPOI</AssemblyReference>
       <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Process Transaction" sap:VirtualizedContainerService.HintSize="710,1657.6" sap2010:WorkflowViewState.IdRef="Sequence_62">
+  <Sequence DisplayName="Process Transaction" sap:VirtualizedContainerService.HintSize="710,1659.2" sap2010:WorkflowViewState.IdRef="Sequence_62">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <uma:Office365ApplicationScope CertificateAsBase64="{x:Null}" CertificatePassword="{x:Null}" ContinueOnError="{x:Null}" OAuth2Username="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[IN_credExchangeCredentials.UserName]" ApplicationSecret="[IN_credExchangeCredentials.Password]" AuthenticationType="ApplicationIdAndSecret" DisplayName="Microsoft Office 365 Scope" Environment="Global" sap:VirtualizedContainerService.HintSize="668,1565.6" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Mail" Tenant="[io_Config(&quot;TenantID&quot;).ToString]">
+    <uma:Office365ApplicationScope CertificateAsBase64="{x:Null}" CertificatePassword="{x:Null}" ContinueOnError="{x:Null}" OAuth2Username="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[IN_credExchangeCredentials.UserName]" ApplicationSecret="[IN_credExchangeCredentials.Password]" AuthenticationType="ApplicationIdAndSecret" DisplayName="Microsoft Office 365 Scope" Environment="Global" sap:VirtualizedContainerService.HintSize="668,1567.2" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Mail" Tenant="[io_Config(&quot;TenantID&quot;).ToString]">
       <uma:Office365ApplicationScope.Body>
         <ActivityAction x:TypeArguments="mg:GraphServiceClient">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="mg:GraphServiceClient" Name="ParentScope" />
           </ActivityAction.Argument>
-          <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " sap:VirtualizedContainerService.HintSize="634,1479.6" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+          <Flowchart sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " sap:VirtualizedContainerService.HintSize="634,1481.2" sap2010:WorkflowViewState.IdRef="Flowchart_2">
             <Flowchart.Variables>
               <Variable x:TypeArguments="str:Match" Name="matchSubjectCode" />
               <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="ieAttachments" />
@@ -158,12 +160,15 @@
             <Flowchart.StartNode>
               <x:Reference>__ReferenceID16</x:Reference>
             </Flowchart.StartNode>
-            <FlowDecision x:Name="__ReferenceID15" sap2010:Annotation.AnnotationText="Are the email subject and attachment file names all less than or equal to 200 characters in length? Does the email subject contain a 6 digit reference code?" Condition="[in_TransactionItem.Subject.Length&lt;=200 and listProblemAttachments.Count=0 and matchSubjectCode.Success]" DisplayName="No issues with email?" sap:VirtualizedContainerService.HintSize="119.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_12">
+            <FlowDecision x:Name="__ReferenceID15" sap2010:Annotation.AnnotationText="Are the email subject and attachment file names all less than or equal to 180 characters in length? Does the email subject contain a 6 digit reference code?" DisplayName="No issues with email?" sap:VirtualizedContainerService.HintSize="119.2,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_12">
+              <FlowDecision.Condition>
+                <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="in_TransactionItem.Subject.Length&lt;=180 and listProblemAttachments.Count=0 and matchSubjectCode.Success" />
+              </FlowDecision.Condition>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   <av:Point x:Key="ShapeLocation">240.4,186.5</av:Point>
-                  <av:Size x:Key="ShapeSize">119.6,87.2</av:Size>
+                  <av:Size x:Key="ShapeSize">119.2,87.2</av:Size>
                   <av:PointCollection x:Key="FalseConnector">359.6,230.1 502.6,230.1 502.6,276.4</av:PointCollection>
                   <av:PointCollection x:Key="TrueConnector">240.4,230.1 171.6,230.1 171.6,497.6 201.6,497.6</av:PointCollection>
                   <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
@@ -174,11 +179,11 @@
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <av:Point x:Key="ShapeLocation">201.6,463.2</av:Point>
-                      <av:Size x:Key="ShapeSize">200,68</av:Size>
+                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                       <av:PointCollection x:Key="ConnectorLocation">301.6,532 301.6,551.2</av:PointCollection>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <Sequence DisplayName="Check mailbox for duplicates" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_42">
+                  <Sequence DisplayName="Check mailbox for duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_42">
                     <Sequence.Variables>
                       <Variable x:TypeArguments="s:String[]" Name="arrFolders" />
                     </Sequence.Variables>
@@ -272,11 +277,11 @@
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <av:Point x:Key="ShapeLocation">201.6,823.2</av:Point>
-                              <av:Size x:Key="ShapeSize">200,68</av:Size>
+                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                               <av:PointCollection x:Key="ConnectorLocation">301.6,892 301.6,922</av:PointCollection>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <Sequence DisplayName="Check Sharepoint for duplicates" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_44">
+                          <Sequence DisplayName="Check Sharepoint for duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_44">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -318,12 +323,12 @@
                             </ui:FilterDataTable>
                           </Sequence>
                           <FlowStep.Next>
-                            <FlowDecision x:Name="__ReferenceID6" Condition="[dtSharepointDuplicates.RowCount=0]" DisplayName="Not found in Sharepoint?" sap:VirtualizedContainerService.HintSize="140,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_8">
+                            <FlowDecision x:Name="__ReferenceID6" Condition="[dtSharepointDuplicates.RowCount=0]" DisplayName="Not found in Sharepoint?" sap:VirtualizedContainerService.HintSize="139.6,87.2" sap2010:WorkflowViewState.IdRef="FlowDecision_8">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                   <av:Point x:Key="ShapeLocation">231.8,922</av:Point>
-                                  <av:Size x:Key="ShapeSize">140,87.2</av:Size>
+                                  <av:Size x:Key="ShapeSize">139.6,87.2</av:Size>
                                   <av:PointCollection x:Key="FalseConnector">371.4,965.6 501.2,965.6 501.2,1023.2</av:PointCollection>
                                   <av:PointCollection x:Key="TrueConnector">231.8,965.6 170.2,965.6 170.2,1244.4 200.2,1244.4</av:PointCollection>
                                 </scg:Dictionary>
@@ -333,11 +338,11 @@
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <av:Point x:Key="ShapeLocation">200.2,1210</av:Point>
-                                      <av:Size x:Key="ShapeSize">200,68</av:Size>
+                                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                                       <av:PointCollection x:Key="ConnectorLocation">300.2,1278.8 300.2,1298.8</av:PointCollection>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
-                                  <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="890,6143.2" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                                  <Sequence DisplayName="Upload to Sharepoint" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_52">
                                     <Sequence.Variables>
                                       <Variable x:TypeArguments="x:String" Name="strUploadPath" />
                                     </Sequence.Variables>
@@ -666,11 +671,11 @@
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <av:Point x:Key="ShapeLocation">200.2,1032.4</av:Point>
-                                          <av:Size x:Key="ShapeSize">200,68</av:Size>
+                                          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                                           <av:PointCollection x:Key="ConnectorLocation">300.2,1101.2 300.2,1121.2</av:PointCollection>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <Sequence DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_55">
+                                      <Sequence DisplayName="Pause Point 3" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_55">
                                         <Sequence.Variables>
                                           <Variable x:TypeArguments="sd1:DataTable" Name="dtFirstFive" />
                                         </Sequence.Variables>
@@ -729,11 +734,11 @@
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                               <av:Point x:Key="ShapeLocation">200.2,1121.2</av:Point>
-                                              <av:Size x:Key="ShapeSize">200,68</av:Size>
+                                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                                               <av:PointCollection x:Key="ConnectorLocation">300.2,720 300.2,770</av:PointCollection>
                                             </scg:Dictionary>
                                           </sap:WorkflowViewStateService.ViewState>
-                                          <Sequence DisplayName="Mark Sharepoint duplicate" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_56">
+                                          <Sequence DisplayName="Mark Sharepoint duplicate" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_56">
                                             <sap:WorkflowViewStateService.ViewState>
                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -779,11 +784,11 @@
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <av:Point x:Key="ShapeLocation">201.6,651.2</av:Point>
-                                  <av:Size x:Key="ShapeSize">200,68</av:Size>
+                                  <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                                   <av:PointCollection x:Key="ConnectorLocation">301.6,719.2 301.6,739.2</av:PointCollection>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                              <Sequence DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_57">
+                              <Sequence DisplayName="Pause Point 2" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_57">
                                 <Sequence.Variables>
                                   <Variable x:TypeArguments="sd1:DataTable" Name="dtPausePoint2" />
                                 </Sequence.Variables>
@@ -827,10 +832,10 @@
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <av:Point x:Key="ShapeLocation">201.6,739.2</av:Point>
-                                      <av:Size x:Key="ShapeSize">200,68</av:Size>
+                                      <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
-                                  <Sequence DisplayName="Mark mailbox duplicates" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_59">
+                                  <Sequence DisplayName="Mark mailbox duplicates" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_59">
                                     <sap:WorkflowViewStateService.ViewState>
                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -904,11 +909,11 @@
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <av:Point x:Key="ShapeLocation">201.6,285.6</av:Point>
-                          <av:Size x:Key="ShapeSize">200,68</av:Size>
+                          <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                           <av:PointCollection x:Key="ConnectorLocation">301.6,354.4 301.6,374.4</av:PointCollection>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                      <Sequence DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_60">
+                      <Sequence DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_60">
                         <Sequence.Variables>
                           <Variable x:TypeArguments="x:String" Name="strProblemAttachments" />
                         </Sequence.Variables>
@@ -939,7 +944,7 @@
                             <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
                           </InvokeMethod.TargetObject>
                         </InvokeMethod>
-                        <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="434,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Email format issue identified&lt;/h1&gt;&quot;+&#xA;&quot;&lt;p&gt;Email subjects processed by this automation should contain a 6 digit reference code. Email subjects and attachments processed by this automation are required to be no more than 200 characters in length.&lt;/p&gt;&quot;+&#xA;&quot;&lt;p&gt;The current transaction item with subject '&quot;+in_TransactionItem.Subject+&quot;' has the following issues:&lt;/p&gt;&quot;+&#xA;&quot;&lt;ul&gt;&quot;+&#xA;If(Not matchSubjectCode.Success,&#xA;&#x9;&quot;&lt;li&gt;The email subject does not contain a 6 digit reference code&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;If(in_TransactionItem.Subject.Length&gt;200,&#xA;&#x9;&quot;&lt;li&gt;The email subject is &quot;+in_TransactionItem.Subject.Length.ToString+&quot; characters long&lt;/li&gt;&quot;,&#xA;&#x9;&quot;&quot;)+&#xA;strProblemAttachments+&#xA;&quot;&lt;/ul&gt;&quot;+&#xA;&quot;&lt;p&gt;If this email has been correctly identified for return, please press Continue.&lt;br&gt;If this email has been incorrectly identified, please press Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Email format issue identified" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_8" />
+                        <p:Generic_PopUp OUT_ProcessType="{x:Null}" OUT_strButtonSelected="{x:Null}" DisplayName="Pause Point 1" sap:VirtualizedContainerService.HintSize="434,22" IN_CSS_filepath="[&quot;/file://&quot; + System.IO.Directory.GetCurrentDirectory + &quot;\Assets\Generic\PausePoint.css&quot;]" IN_ErrorMessage="The stop button was pressed" IN_PopupMessage="[&quot;&lt;h1&gt;Email format issue identified&lt;/h1&gt;&quot;+&#xD;&#xA;&quot;&lt;p&gt;Email subjects processed by this automation should contain a 6 digit reference code. Email subjects and attachments processed by this automation are required to be no more than 180 characters in length.&lt;/p&gt;&quot;+&#xD;&#xA;&quot;&lt;p&gt;The current transaction item with subject '&quot;+in_TransactionItem.Subject+&quot;' has the following issues:&lt;/p&gt;&quot;+&#xD;&#xA;&quot;&lt;ul&gt;&quot;+&#xD;&#xA;If(Not matchSubjectCode.Success,&#xD;&#xA;&#x9;&quot;&lt;li&gt;The email subject does not contain a 6 digit reference code&lt;/li&gt;&quot;,&#xD;&#xA;&#x9;&quot;&quot;)+&#xD;&#xA;If(in_TransactionItem.Subject.Length&gt;180,&#xD;&#xA;&#x9;&quot;&lt;li&gt;The email subject is &quot;+in_TransactionItem.Subject.Length.ToString+&quot; characters long&lt;/li&gt;&quot;,&#xD;&#xA;&#x9;&quot;&quot;)+&#xD;&#xA;strProblemAttachments+&#xD;&#xA;&quot;&lt;/ul&gt;&quot;+&#xD;&#xA;&quot;&lt;p&gt;If this email has been correctly identified for return, please press Continue.&lt;br&gt;If this email has been incorrectly identified, please press Stop.&lt;/p&gt;&quot;]" IN_PopupTitle="Email format issue identified" IN_WidthHeight="[{650,650}]" sap2010:WorkflowViewState.IdRef="Generic_PopUp_8" />
                         <InvokeMethod DisplayName="Start timer - PP1" sap:VirtualizedContainerService.HintSize="434,135.2" sap2010:WorkflowViewState.IdRef="InvokeMethod_21" MethodName="Start">
                           <InvokeMethod.TargetObject>
                             <InArgument x:TypeArguments="sd:Stopwatch">[io_swProcessingTimer]</InArgument>
@@ -951,10 +956,10 @@
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <av:Point x:Key="ShapeLocation">201.6,374.4</av:Point>
-                              <av:Size x:Key="ShapeSize">200,68</av:Size>
+                              <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <Sequence DisplayName="Return email" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_61">
+                          <Sequence DisplayName="Return email" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_61">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1010,11 +1015,11 @@
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <av:Point x:Key="ShapeLocation">200,97.7</av:Point>
-                  <av:Size x:Key="ShapeSize">200,68</av:Size>
+                  <av:Size x:Key="ShapeSize">200,68.8</av:Size>
                   <av:PointCollection x:Key="ConnectorLocation">300,166.5 300,186.5</av:PointCollection>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Sequence DisplayName="Check subject code, save mail item" sap:VirtualizedContainerService.HintSize="200,68" sap2010:WorkflowViewState.IdRef="Sequence_38">
+              <Sequence DisplayName="Check subject code, save mail item" sap:VirtualizedContainerService.HintSize="200,68.8" sap2010:WorkflowViewState.IdRef="Sequence_38">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1066,12 +1071,12 @@
                   </If.Then>
                 </If>
                 <ui:SaveMail DisplayName="Save Mail Message" FilePath="[strSaveEmailPath]" sap:VirtualizedContainerService.HintSize="484,88" sap2010:WorkflowViewState.IdRef="SaveMail_3" MailMessage="[in_TransactionItem]" />
-                <Assign DisplayName="Filter attachment name lengths &gt;200" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_29">
+                <Assign DisplayName="Filter attachment name lengths &gt;180" sap:VirtualizedContainerService.HintSize="484,59.6" sap2010:WorkflowViewState.IdRef="Assign_29">
                   <Assign.To>
                     <OutArgument x:TypeArguments="scg:List(snm:Attachment)">[listProblemAttachments]</OutArgument>
                   </Assign.To>
                   <Assign.Value>
-                    <InArgument x:TypeArguments="scg:List(snm:Attachment)">[in_TransactionItem.Attachments.where(function(x) x.Name.Length&gt;200).ToList]</InArgument>
+                    <InArgument x:TypeArguments="scg:List(snm:Attachment)">[in_TransactionItem.Attachments.where(function(x) x.Name.Length&gt;180).ToList]</InArgument>
                   </Assign.Value>
                 </Assign>
               </Sequence>
