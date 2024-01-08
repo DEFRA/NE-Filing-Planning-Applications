@@ -4,8 +4,8 @@
     <x:Property Name="IN_strSharepointLibrary" Type="InArgument(x:String)" />
     <x:Property Name="IN_strCAMLQuery" Type="InArgument(x:String)" />
     <x:Property Name="OUT_dtSharepointManifest" Type="OutArgument(sd:DataTable)" />
-    <x:Property Name="IN_intTimeUnitInDays" Type="InArgument(x:Int32)" />
-    <x:Property Name="IN_intQueryPeriod" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="The full time period that the collective iterations should query e.g. 1 year." Name="IN_intTimeUnitInDays" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="The number of days that a single query iteration should retrieve data for e.g. 7 days." Name="IN_intQueryPeriod" Type="InArgument(x:Int32)" />
   </x:Members>
   <this:Query_Sharepoint.IN_strSharepointURL>
     <InArgument x:TypeArguments="x:String" />
@@ -22,7 +22,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1410,2743.6</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1410,2885.2</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Sequence_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="34">
@@ -95,10 +95,9 @@
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>UiPath.Excel</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Query Sharepoint" sap:VirtualizedContainerService.HintSize="922,2678.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Sharepoint queries cap out at 5000. Here, we perform multiple queries iterating over time intervals set by a CAML query and append the results.&#xD;&#xA;&#xD;&#xA;e.g. if we want to query that last 28 days worth of Sharepoint items over 7 day increments, this workflow first queries 28 to 21 days ago, then 21 to 14 days ago, then 14 to 7 days ago and finally 7 to 0 days ago. These queries are each appended into a single data table and allows for &gt;5000 items to be queried." DisplayName="Query Sharepoint" sap:VirtualizedContainerService.HintSize="922,2866.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="intIteration" />
       <Variable x:TypeArguments="x:Int32" Name="intIterationLimit" />
@@ -107,6 +106,7 @@
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <Assign DisplayName="Initialise datatable" sap:VirtualizedContainerService.HintSize="880,59.6" sap2010:WorkflowViewState.IdRef="Assign_2">
@@ -117,13 +117,18 @@
         <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign DisplayName="Calculate iteration limit" sap:VirtualizedContainerService.HintSize="880,59.6" sap2010:WorkflowViewState.IdRef="Assign_4">
+    <Assign sap2010:Annotation.AnnotationText="Calculate how many iterations are required for a given query period and time unit.&#xD;&#xA;&#xD;&#xA;e.g. for 7 day query periods over a 28 day total, 4 iterations will be necessary." DisplayName="Calculate iteration limit" sap:VirtualizedContainerService.HintSize="880,170" sap2010:WorkflowViewState.IdRef="Assign_4">
       <Assign.To>
         <OutArgument x:TypeArguments="x:Int32">[intIterationLimit]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:Int32">[CInt(IN_intQueryPeriod/IN_intTimeUnitInDays)]</InArgument>
       </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
     </Assign>
     <usa:SharepointApplicationScope AzureApplicationID="{x:Null}" ClientContext="{x:Null}" ClientId="{x:Null}" ClientSecret="{x:Null}" LoginTimeout="{x:Null}" Password="{x:Null}" SecurePassword="{x:Null}" UserName="{x:Null}" AzureAppPermissions="None" DisplayName="Sharepoint application scope" sap:VirtualizedContainerService.HintSize="880,1829.6" sap2010:WorkflowViewState.IdRef="SharepointApplicationScope_1" PlatformType="Online" QueryGrouping="False" ResetCredentials="False" SharePointInstanceType="WebLogin" URL="[IN_strSharepointURL]">
       <usa:SharepointApplicationScope.Body>
@@ -131,7 +136,7 @@
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="us:SharePointContextInfo" Name="SharePointContextInfoTag" />
           </ActivityAction.Argument>
-          <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[intIteration&lt;intIterationLimit]" DisplayName="Do While" sap:VirtualizedContainerService.HintSize="846,1687.6" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_2">
+          <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[intIteration&lt;intIterationLimit]" DisplayName="Do While - querying to current date" sap:VirtualizedContainerService.HintSize="846,1687.6" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_2">
             <ui:InterruptibleDoWhile.Body>
               <Sequence sap:VirtualizedContainerService.HintSize="810.4,1520.4" sap2010:WorkflowViewState.IdRef="Sequence_4">
                 <Sequence.Variables>
@@ -150,8 +155,8 @@
                     <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
                   </Assign.Value>
                 </Assign>
-                <ui:ReportStatus DisplayName="Report Status" sap:VirtualizedContainerService.HintSize="768.4,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="768.4,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
+                <ui:ReportStatus DisplayName="Report Status - percentage complete" sap:VirtualizedContainerService.HintSize="768.4,67.2" sap2010:WorkflowViewState.IdRef="ReportStatus_2" StatusText="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
+                <ui:LogMessage DisplayName="Log Message - percentage complete" sap:VirtualizedContainerService.HintSize="768.4,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[Cint((100*intIteration/intIterationLimit)).ToString+&quot;% - Querying Sharepoint&quot;]" />
                 <Assign DisplayName="Format CAML query" sap:VirtualizedContainerService.HintSize="768.4,63.2" sap2010:WorkflowViewState.IdRef="Assign_5">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">[strCAMLQuery]</OutArgument>
@@ -162,7 +167,7 @@ Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration)).ToString("
 Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString("yyyy-MM-ddTHH:mm:ssZ"))]</InArgument>
                   </Assign.Value>
                 </Assign>
-                <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="768.4,710.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch DisplayName="Try Catch - query Sharepoint folders" sap:VirtualizedContainerService.HintSize="768.4,710.4" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                   <TryCatch.Try>
                     <usal:ReadListItems AttachmentsAction="{x:Null}" ItemsDictArray="{x:Null}" LocalPathHintText="{x:Null}" RelativeUrlHintText="{x:Null}" CAMLQuery="[strCAMLQuery]" ChooseFile="False" DisplayName="Get List Items" sap:VirtualizedContainerService.HintSize="344,139.2" sap2010:WorkflowViewState.IdRef="ReadListItems_2" ItemsTable="[dtItems]" ListName="[IN_strSharepointLibrary]" ShowAttachFiles="False" ShowCAMLQuery="True" ShowCAMLWarning="False" ShowGroupDescription="False" ShowGroupName="False" ShowLibraryName="False" ShowListName="True" ShowLocalPath="False" ShowMove="False" ShowPermissionDropdown="False" ShowPropertiesDictionary="False" ShowRelativeUrl="False" ShowRename="False" ShowUserName="False" />
                   </TryCatch.Try>
@@ -208,7 +213,7 @@ Today.AddDays(-IN_intTimeUnitInDays*(intIterationLimit-intIteration-1)).ToString
                     </Catch>
                   </TryCatch.Catches>
                 </TryCatch>
-                <ui:MergeDataTable Destination="[OUT_dtSharepointManifest]" DisplayName="Merge Data Table" sap:VirtualizedContainerService.HintSize="768.4,134.8" sap2010:WorkflowViewState.IdRef="MergeDataTable_2" MissingSchemaAction="Add" Source="[dtItems]" />
+                <ui:MergeDataTable Destination="[OUT_dtSharepointManifest]" DisplayName="Append query items" sap:VirtualizedContainerService.HintSize="768.4,134.8" sap2010:WorkflowViewState.IdRef="MergeDataTable_2" MissingSchemaAction="Add" Source="[dtItems]" />
                 <Assign DisplayName="Increment iteration counter" sap:VirtualizedContainerService.HintSize="768.4,59.6" sap2010:WorkflowViewState.IdRef="Assign_3">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:Int32">[intIteration]</OutArgument>
